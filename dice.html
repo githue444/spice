@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Spice It Up!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400&display=swap');
+
+        :root {
+            --primary-color: #e63946;
+            --secondary-color: #f4a261;
+            --bg-dark: #1D030F;
+            --bg-light: #6d1b3f;
+            --light-text: #f1faee;
+        }
+
+        html {
+            overscroll-behavior-y: contain;
+        }
+
+        body {
+            margin: 0;
+            padding: 2rem;
+            font-family: 'Poppins', sans-serif;
+            color: var(--light-text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            background: linear-gradient(125deg, var(--bg-dark), #4a0d24, var(--bg-dark), var(--bg-light));
+            background-size: 400% 400%;
+            animation: aurora-animation 15s ease infinite;
+            overflow: hidden;
+        }
+
+        @keyframes aurora-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            text-align: center;
+            max-width: 95%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: var(--light-text);
+            font-size: clamp(2rem, 10vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        #gender-icon-container {
+            margin-bottom: 2rem;
+            font-size: 3rem;
+            color: var(--secondary-color);
+            text-shadow: 0 0 10px var(--secondary-color);
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #gender-icon-container i {
+            transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            perspective: 1000px;
+        }
+
+        .card {
+            background: rgba(241, 250, 238, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: var(--light-text);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+            width: 220px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 1rem;
+            font-size: 2.5rem;
+            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            box-sizing: border-box;
+            transform-style: preserve-3d;
+            opacity: 0;
+        }
+        
+        @keyframes slide-and-flip {
+            from {
+                opacity: 0;
+                transform: translateX(-50px) rotateY(-90deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) rotateY(0);
+            }
+        }
+
+        .card.animate {
+            animation: slide-and-flip 0.8s forwards ease-out;
+        }
+        .card.animate:last-child {
+            animation-delay: 0.2s;
+        }
+        
+        #generate-btn {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-family: 'Poppins', sans-serif;
+            border-radius: 50px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        #generate-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        #generate-btn i {
+            font-size: 1.5rem;
+        }
+
+        /* Mobile Responsive Styles for Short Screens */
+        @media (max-height: 850px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: clamp(1.8rem, 7vh, 2.2rem);
+                margin-bottom: 0.5rem;
+            }
+
+            #gender-icon-container {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+                height: auto;
+            }
+
+            .card-container {
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .card {
+                width: 160px;
+                height: 160px;
+                font-size: 2rem;
+                border-radius: 12px;
+            }
+
+            #generate-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            #generate-btn i {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Spice Things Up</h1>
+
+        <div id="gender-icon-container">
+            <i id="gender-icon" class="fa-solid fa-mars"></i>
+        </div>
+
+        <div class="card-container">
+            <div class="card" id="card1">...</div>
+            <div class="card" id="card2">...</div>
+        </div>
+        <button id="generate-btn">
+            <i class="fa-solid fa-fire"></i>
+            <span>Spice It</span>
+        </button>
+    </div>
+
+    <script>
+        const card1Element = document.getElementById('card1');
+        const card2Element = document.getElementById('card2');
+        const generateBtn = document.getElementById('generate-btn');
+        const genderIcon = document.getElementById('gender-icon');
+
+        const values1 = ['Blow', 'Lick', 'Squeeze', 'Suck', 'Bite', 'Kiss', 'Stroke', 'You Choose!'];
+        const values2 = ['Neck', 'Fingers', 'Inner Thigh', 'Ass', 'Breast', 'Below Navel', 'Ears', 'Lips'];
+
+        let isCurrentlyMale = true;
+
+        function generateCards() {
+            isCurrentlyMale = !isCurrentlyMale;
+
+            if (isCurrentlyMale) {
+                genderIcon.className = 'fa-solid fa-mars';
+                genderIcon.style.color = 'var(--secondary-color)';
+            } else {
+                genderIcon.className = 'fa-solid fa-venus';
+                genderIcon.style.color = 'var(--primary-color)';
+            }
+
+            const randomValue1 = values1[Math.floor(Math.random() * values1.length)];
+            const randomValue2 = values2[Math.floor(Math.random() * values2.length)];
+
+            card1Element.classList.remove('animate');
+            card2Element.classList.remove('animate');
+            
+            void card1Element.offsetWidth;
+            
+            card1Element.textContent = randomValue1;
+            card2Element.textContent = randomValue2;
+            
+            card1Element.classList.add('animate');
+            card2Element.classList.add('animate');
+        }
+
+        generateBtn.addEventListener('click', generateCards);
+
+        document.addEventListener('DOMContentLoaded', () => {
+             genderIcon.className = 'fa-solid fa-mars';
+             genderIcon.style.color = 'var(--secondary-color)';
+
+             card1Element.textContent = values1[Math.floor(Math.random() * values1.length)];
+             card2Element.textContent = values2[Math.floor(Math.random() * values2.length)];
+             card1Element.classList.add('animate');
+             card2Element.classList.add('animate');
+        });
+    </script>
+
+</body>
+</html>
