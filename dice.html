@@ -9,12 +9,13 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400&display=swap');
 
+        /* NEW: Brighter, more modern color palette */
         :root {
-            --primary-color: #e63946;
-            --secondary-color: #f4a261;
-            --bg-dark: #1D030F;
-            --bg-light: #6d1b3f;
-            --light-text: #f1faee;
+            --primary-color: #F94892; /* Vibrant Hot Pink */
+            --secondary-color: #ffffff; /* White */
+            --accent-color: #FF8FAB;   /* Lighter, softer pink for accents */
+            --bg-dark: #1f2041;       /* Deep Indigo/Blue */
+            --light-text: #ffffff;
         }
 
         html {
@@ -31,16 +32,9 @@
             align-items: center;
             min-height: 100vh;
             box-sizing: border-box;
-            background: linear-gradient(125deg, var(--bg-dark), #4a0d24, var(--bg-dark), var(--bg-light));
-            background-size: 400% 400%;
-            animation: aurora-animation 15s ease infinite;
+            background-color: var(--bg-dark);
             overflow: hidden;
-        }
-
-        @keyframes aurora-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            position: relative;
         }
 
         .container {
@@ -49,24 +43,26 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            z-index: 1;
         }
 
         h1 {
             font-family: 'Playfair Display', serif;
-            color: var(--light-text);
-            font-size: clamp(2rem, 10vw, 3rem);
-            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            font-size: clamp(2.5rem, 10vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
         }
 
         #gender-icon-container {
             margin-bottom: 2rem;
             font-size: 3rem;
-            color: var(--secondary-color);
-            text-shadow: 0 0 10px var(--secondary-color);
+            color: var(--accent-color);
             height: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
+            text-shadow: 0 0 15px var(--accent-color);
         }
 
         #gender-icon-container i {
@@ -82,29 +78,27 @@
             flex-wrap: wrap;
             perspective: 1000px;
         }
-
+        
+        /* NEW: Simplified single-panel card design */
         .card {
-            background: rgba(241, 250, 238, 0.15);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            color: var(--light-text);
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
             width: 220px;
             height: 200px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            transform-style: preserve-3d;
+            opacity: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            text-align: center;
             padding: 1rem;
-            font-size: 2.5rem;
-            font-weight: bold;
-            font-family: 'Playfair Display', serif;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             box-sizing: border-box;
-            transform-style: preserve-3d;
-            opacity: 0;
+            text-align: center;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            font-size: 2.2rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            border: 2px solid rgba(255, 255, 255, 0.8);
         }
         
         @keyframes slide-and-flip {
@@ -127,75 +121,88 @@
         
         #generate-btn {
             background-color: var(--primary-color);
-            color: var(--light-text);
-            border: none;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
             padding: 1rem 2rem;
             font-size: 1.2rem;
             font-family: 'Poppins', sans-serif;
+            font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         #generate-btn:hover {
-            background-color: var(--secondary-color);
+            background-color: var(--accent-color);
+            border-color: var(--secondary-color);
             transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
 
         #generate-btn i {
             font-size: 1.5rem;
         }
+        
+        /* Floating hearts background */
+        .heart-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
 
-        /* Mobile Responsive Styles for Short Screens */
+        .heart {
+            position: absolute;
+            color: var(--primary-color);
+            font-size: 1rem;
+            animation: float-heart 20s infinite linear;
+            opacity: 0;
+            bottom: -50px;
+        }
+        
+        @keyframes float-heart {
+            0% { transform: translateY(0) rotate(0); opacity: 0.5; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        .heart:nth-child(1) { left: 10%; animation-delay: 0s; font-size: 1.5rem; animation-duration: 15s;}
+        .heart:nth-child(2) { left: 20%; animation-delay: 2s; font-size: 1rem; animation-duration: 20s;}
+        .heart:nth-child(3) { left: 35%; animation-delay: 4s; font-size: 2rem; animation-duration: 25s;}
+        .heart:nth-child(4) { left: 50%; animation-delay: 0s; font-size: 1.2rem; animation-duration: 18s;}
+        .heart:nth-child(5) { left: 65%; animation-delay: 3s; font-size: 1.8rem; animation-duration: 14s;}
+        .heart:nth-child(6) { left: 75%; animation-delay: 5s; font-size: 1rem; animation-duration: 22s;}
+        .heart:nth-child(7) { left: 90%; animation-delay: 1s; font-size: 2.5rem; animation-duration: 16s;}
+
+        /* Mobile Responsive Styles */
         @media (max-height: 850px) {
-            body {
-                padding: 1rem;
-            }
-
-            h1 {
-                font-size: clamp(1.8rem, 7vh, 2.2rem);
-                margin-bottom: 0.5rem;
-            }
-
-            #gender-icon-container {
-                font-size: 2.5rem;
-                margin-bottom: 1rem;
-                height: auto;
-            }
-
-            .card-container {
-                gap: 1rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .card {
-                width: 160px;
-                height: 160px;
-                font-size: 2rem;
-                border-radius: 12px;
-            }
-
-            #generate-btn {
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
-            }
-
-            #generate-btn i {
-                font-size: 1.2rem;
-            }
+            body { padding: 1rem; }
+            h1 { font-size: clamp(2rem, 7vh, 2.5rem); margin-bottom: 1rem; }
+            #gender-icon-container { font-size: 2.5rem; margin-bottom: 1rem; height: auto; }
+            .card-container { gap: 1rem; margin-bottom: 1.5rem; }
+            .card { width: 180px; height: 180px; font-size: 1.8rem; }
+            #generate-btn { padding: 0.8rem 1.5rem; font-size: 1rem; }
+            #generate-btn i { font-size: 1.2rem; }
         }
     </style>
 </head>
 <body>
 
+    <div class="heart-bg">
+        <i class="fa-solid fa-heart heart"></i><i class="fa-solid fa-heart heart"></i><i class="fa-solid fa-heart heart"></i><i class="fa-solid fa-heart heart"></i><i class="fa-solid fa-heart heart"></i><i class="fa-solid fa-heart heart"></i><i class="fa-solid fa-heart heart"></i>
+    </div>
+
     <div class="container">
         <h1>Spice Things Up</h1>
 
         <div id="gender-icon-container">
-            <i id="gender-icon" class="fa-solid fa-mars"></i>
+            <i id="gender-icon" class="fa-solid fa-venus"></i>
         </div>
 
         <div class="card-container">
@@ -203,58 +210,94 @@
             <div class="card" id="card2">...</div>
         </div>
         <button id="generate-btn">
-            <i class="fa-solid fa-fire"></i>
+            <i class="fa-solid fa-heart"></i>
             <span>Spice It</span>
         </button>
     </div>
 
     <script>
+        // Get references to all the elements we need to interact with
         const card1Element = document.getElementById('card1');
         const card2Element = document.getElementById('card2');
         const generateBtn = document.getElementById('generate-btn');
         const genderIcon = document.getElementById('gender-icon');
 
-        const values1 = ['Blow', 'Lick', 'Squeeze', 'Suck', 'Bite', 'Kiss', 'Stroke', 'You Choose!'];
-        const values2 = ['Neck', 'Fingers', 'Inner Thigh', 'Ass', 'Breast', 'Below Navel', 'Ears', 'Lips'];
+        // Master lists of all possible values
+		const allValues1 = ['Blow', 'Pat', 'Lick', 'Squeeze', 'Suck', 'Bite', 'Kiss', 'Nip', 'You Choose!'];
+        const allValues2 = ['Neck', 'Fingers', 'Inner Thigh', 'Ass', 'Boobs', 'Dick', 'Navel', 'Ears', 'Lips', 'You Choose!'];		
 
-        let isCurrentlyMale = true;
+        // Exclusion rules for each state
+        const maleExclusions = {
+            values1: [],
+            values2: ['Boobs']
+        };
+        const femaleExclusions = {
+            values1: [],
+            values2: ['Dick']
+        };
 
-        function generateCards() {
-            isCurrentlyMale = !isCurrentlyMale;
+        // Initialize the state
+        let isCurrentlyMale = false; // Start with Female to match the icon
 
+        // This function contains the core logic for updating the cards
+        function updateCards() {
+            let availableValues1, availableValues2;
+
+            // Filter the master lists based on the current state (male/female)
             if (isCurrentlyMale) {
-                genderIcon.className = 'fa-solid fa-mars';
-                genderIcon.style.color = 'var(--secondary-color)';
+                availableValues1 = allValues1.filter(value => !maleExclusions.values1.includes(value));
+                availableValues2 = allValues2.filter(value => !maleExclusions.values2.includes(value));
             } else {
-                genderIcon.className = 'fa-solid fa-venus';
-                genderIcon.style.color = 'var(--primary-color)';
+                availableValues1 = allValues1.filter(value => !femaleExclusions.values1.includes(value));
+                availableValues2 = allValues2.filter(value => !femaleExclusions.values2.includes(value));
             }
 
-            const randomValue1 = values1[Math.floor(Math.random() * values1.length)];
-            const randomValue2 = values2[Math.floor(Math.random() * values2.length)];
+            // Pick a random value from the filtered 'available' lists
+            const randomValue1 = availableValues1[Math.floor(Math.random() * availableValues1.length)];
+            const randomValue2 = availableValues2[Math.floor(Math.random() * availableValues2.length)];
 
+            // Reset animation classes to allow them to be re-triggered
             card1Element.classList.remove('animate');
             card2Element.classList.remove('animate');
-            
-            void card1Element.offsetWidth;
-            
-            card1Element.textContent = randomValue1;
-            card2Element.textContent = randomValue2;
-            
+            void card1Element.offsetWidth; // Force a browser reflow
+
+            // Update the text content of the cards
+            card1Element.textContent = randomValue1 || '...';
+            card2Element.textContent = randomValue2 || '...';
+
+            // Add animation classes back to trigger the slide-and-flip effect
             card1Element.classList.add('animate');
             card2Element.classList.add('animate');
         }
 
-        generateBtn.addEventListener('click', generateCards);
+        // This function handles the button click event
+        function handleGenerateClick() {
+            isCurrentlyMale = !isCurrentlyMale; // Toggle the state
 
+            // Update the gender icon and its color based on the new state
+            if (isCurrentlyMale) {
+                genderIcon.className = 'fa-solid fa-mars';
+                genderIcon.style.color = '#89cff0'; // A light blue for Mars
+            } else {
+                genderIcon.className = 'fa-solid fa-venus';
+                genderIcon.style.color = 'var(--accent-color)'; // The pink for Venus
+            }
+
+            // Call the main function to update the cards with new values
+            updateCards();
+        }
+        
+        // Attach the click handler to the button
+        generateBtn.addEventListener('click', handleGenerateClick);
+
+        // This runs once the page has fully loaded
         document.addEventListener('DOMContentLoaded', () => {
-             genderIcon.className = 'fa-solid fa-mars';
-             genderIcon.style.color = 'var(--secondary-color)';
-
-             card1Element.textContent = values1[Math.floor(Math.random() * values1.length)];
-             card2Element.textContent = values2[Math.floor(Math.random() * values2.length)];
-             card1Element.classList.add('animate');
-             card2Element.classList.add('animate');
+            // Set the initial icon to Female (Venus) to match the initial state
+            genderIcon.className = 'fa-solid fa-venus';
+            genderIcon.style.color = 'var(--accent-color)';
+            
+            // Call the update function to populate cards on the initial page load
+            updateCards(); 
         });
     </script>
 
