@@ -10,56 +10,63 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:wght@700&display=swap');
 
         :root {
-            --bg-grad-start: #fdecea;    /* Light Blush Pink */
-            --bg-grad-end: #f8c8dc;      /* Muted Rose */
-            --card-bg: #fdfdfd;          /* Soft Off-White */
-            --card-shadow: rgba(235, 180, 190, 0.4); /* Soft Pink Shadow */
-            --text-dark: #4a4a4a;         /* Dark Charcoal */
-            --text-light: #ffffff;       /* Pure White for buttons */
-            --accent-pink: #e18aaa;       /* Muted Rose Pink for accents */
-            --accent-male: #b3cee5;       /* Soft, romantic blue */
+            --bg-grad-start: #fdecea;
+            --bg-grad-end: #f8c8dc;
+            --card-bg: #fdfdfd;
+            --card-shadow: rgba(235, 180, 190, 0.4);
+            --text-dark: #4a4a4a;
+            --text-light: #ffffff;
+            --accent-pink: #e18aaa;
+            --accent-male: #b3cee5;
         }
 
-        html {
-            overscroll-behavior-y: contain;
+        /* --- NEW: Body layout for 100% height --- */
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            overflow: hidden; /* Strictly prevent scrolling */
         }
 
         body {
-            margin: 0;
-            padding: 2rem;
+            padding: 1rem;
             font-family: 'Inter', sans-serif;
             color: var(--text-dark);
             display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            justify-content: center; /* Horizontally center */
+            align-items: center; /* Vertically center */
+            /* Use dynamic viewport height for true 100% fit on mobile */
+            min-height: 100dvh; 
             background: linear-gradient(160deg, var(--bg-grad-start), var(--bg-grad-end));
-            overflow-x: hidden;
             box-sizing: border-box;
         }
 
         .container {
-            text-align: center;
             width: 100%;
             max-width: 600px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            z-index: 1;
+            /* Use space-around to distribute elements vertically */
+            justify-content: space-around; 
+            height: 100%; /* Make container take full height */
+            padding: 1rem 0;
+            box-sizing: border-box;
         }
 
         h1 {
             font-family: 'Lora', serif;
             color: var(--accent-pink);
-            font-size: clamp(2.5rem, 10vw, 3.5rem);
-            margin-bottom: 1.5rem;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.05);
+            /* Responsive font size */
+            font-size: clamp(2rem, 8vw, 3rem);
+            margin: 0; /* Remove fixed margins */
         }
 
         #gender-icon-container {
-            margin-bottom: 2rem;
             font-size: 2.5rem;
-            height: 40px;
+            height: 35px; /* Set a smaller fixed height */
+            display:flex;
+            align-items:center;
         }
 
         #gender-icon-container i {
@@ -71,14 +78,16 @@
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-bottom: 3rem;
+            gap: 1rem; /* Reduced gap */
             width: 100%;
         }
         
         .card {
-            width: 240px;
-            height: 200px;
+             /* --- NEW: Responsive Height --- */
+            width: 220px;
+            height: 28vh; /* Height based on viewport */
+            max-height: 180px; /* But don't get too tall on desktop */
+            min-height: 120px; /* But don't get too small on short screens */
             border-radius: 12px;
             box-shadow: 0 8px 25px var(--card-shadow);
             opacity: 0;
@@ -90,14 +99,15 @@
             text-align: center;
             background-color: var(--card-bg);
             color: var(--text-dark);
-            font-size: 2.2rem;
+            /* Responsive font size for the card text */
+            font-size: clamp(1.5rem, 5vw, 2rem);
             font-family: 'Lora', serif;
             font-weight: 700;
             border: 1px solid #ffffff;
         }
         
         @keyframes fade-in-up {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -110,12 +120,11 @@
         }
         
         #generate-btn {
-            /* --- UPDATED: Removed Gradient --- */
             background-color: var(--accent-pink);
-            color: var(--text-light); /* Use light text for better contrast */
+            color: var(--text-light);
             border: none;
-            padding: 1rem 2rem;
-            font-size: 1.2rem;
+            padding: 0.8rem 1.8rem; /* Slightly smaller padding */
+            font-size: 1.1rem; /* Slightly smaller font */
             font-family: 'Inter', sans-serif;
             font-weight: 700;
             border-radius: 50px;
@@ -130,7 +139,7 @@
         #generate-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 20px var(--card-shadow);
-            filter: brightness(110%); /* Add brightness on hover instead */
+            filter: brightness(110%);
         }
 
         #generate-btn:active {
