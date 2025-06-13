@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Intimate Moments</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --gold-color: #c4a265;
+            --dark-bg: #1a1a1d;
+            --light-text: #e0e0e0;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        body {
+            font-family: 'Raleway', sans-serif;
+            color: var(--light-text);
+            text-align: center;
+            -webkit-tap-highlight-color: transparent;
+            background-color: var(--dark-bg);
+            background-image: linear-gradient(rgba(26, 26, 29, 0.8), rgba(26, 26, 29, 0.8)), url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAf/AABEIAAUACgMBEQACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1VWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i_usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6AQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgsQAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A9/8Ai/8AHLU/hTqOgaB4B+HemeK/ih46vLuz8H+Gde8QSeHtLubnT7OS/wBSutT1iHTtTns7GzsYJJZIdMu5GfbGkRZg9eGf8NU/tWf9GE+IP8Aw/vhD/5TV5T+1l/ykQ/ZF/7Jh+0F/6kfCKvqqgD//Z');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+
+        h1, h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 3rem;
+            color: var(--gold-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #start-screen, #category-screen {
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        button {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--light-text);
+            background-color: rgba(196, 162, 101, 0.2);
+            border: 1px solid var(--gold-color);
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: var(--gold-color);
+            color: var(--dark-bg);
+            box-shadow: 0 0 15px rgba(196, 162, 101, 0.5);
+        }
+
+        #category-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 2rem;
+        }
+
+        #game-screen.active { 
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        #game-screen-content {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            height: auto;
+        }
+        
+        #player-area { 
+            padding: 15px 0;
+            flex-shrink: 0;
+            text-align: center;
+        }
+        
+        #card-container {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            background: rgba(26, 26, 29, 0.75);
+            border-radius: 20px;
+            margin: 15px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            min-height: 180px;
+            max-height: 300px;
+            overflow: hidden;
+        }
+
+        #card-text { 
+            font-size: 1.2rem; 
+            line-height: 1.5; 
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        #game-footer { 
+            flex-shrink: 0; 
+            padding: 15px 0 0 0;
+            text-align: center;
+        }
+        
+        #player-area svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--gold-color);
+        }
+        
+        #player-label { 
+            color: var(--gold-color); 
+            font-weight: 600; 
+            font-size: 1rem; 
+            margin: 8px 0 0 0; 
+        }
+        
+        #game-controls { 
+            margin-bottom: 15px;
+        }
+        
+        #game-controls button {
+            font-size: 0.9rem;
+            padding: 10px 20px;
+            background-color: rgba(196, 162, 101, 0.15);
+            border: 1px solid rgba(196, 162, 101, 0.4);
+            opacity: 0.8;
+        }
+        
+        #game-controls button:hover {
+            opacity: 1;
+            background-color: rgba(196, 162, 101, 0.25);
+        }
+
+        /* Desktop Layout */
+        @media (min-width: 768px) {
+            #game-screen-content { 
+                max-width: 600px; 
+            }
+            
+            #card-container {
+                min-height: 220px;
+                max-height: 350px;
+                padding: 40px 30px;
+            }
+
+            #card-text { 
+                font-size: 1.4rem; 
+                line-height: 1.6;
+            }
+            
+            #player-area svg {
+                width: 50px;
+                height: 50px;
+            }
+            
+            #player-label { 
+                font-size: 1.2rem; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="start-screen" class="screen active">
+        <div>
+            <h1>Intimate Moments</h1>
+            <p>A game to connect and explore.</p>
+            <button id="start-game-btn">Begin</button>
+        </div>
+    </div>
+
+    <div id="category-screen" class="screen">
+        <div>
+            <h2>Choose a Category</h2>
+            <div id="category-buttons"></div>
+        </div>
+    </div>
+
+    <div id="game-screen" class="screen">
+        <div id="game-screen-content">
+            <div id="player-area">
+                <svg id="female-icon" style="display:none;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="8" r="4" fill="currentColor"/>
+                    <line x1="12" y1="12" x2="12" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="9" y1="17" x2="15" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <svg id="male-icon" style="display:none;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="10" cy="14" r="4" fill="currentColor"/>
+                    <line x1="13.5" y1="10.5" x2="19" y2="5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <polyline points="15,5 19,5 19,9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+                <p id="player-label"></p>
+            </div>
+            
+            <div id="card-container">
+                <p id="card-text">Your card will appear here.</p>
+            </div>
+
+            <div id="game-footer">
+                <div id="game-controls">
+                    <button id="draw-card-btn">Draw a New Card</button>
+                    <button id="back-to-categories-btn">Change Category</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = {
+                'Sensual Awakening': [
+                    'Give me a full-body massage for 10 minutes. The only goal is my relaxation.',
+                    'Using only your fingertips, lightly trace patterns all over my back, arms, and legs for three minutes.',
+                    'Blindfold me. Use three different objects (like a feather, an ice cube, a piece of silk) to gently touch my skin. I have to guess what they are.',
+                    'Let\'s lie facing each other and synchronize our breathing for two minutes. Then, give me a long, slow kiss that lasts for the duration of five deep breaths.',
+                    'Use your favorite lotion or massage oil to slowly moisturize my hands and feet. Pay attention to every detail.',
+                    'Take a warm washcloth and gently wipe it over my face, neck, and shoulders.',
+                    'Let\'s sit in a comfortable position. For five minutes, the only way we can communicate is through touch. No words.',
+                    'I get to choose a song. We will dance to it, holding each other as close as possible.',
+                    'Gently play with my hair for five minutes.',
+                    'Undress me, but with the slowest, most deliberate pace you can manage. For every item you remove, you must place a kiss on the skin you\'ve just revealed.'
+                ],
+                'The Art of the Kiss': [
+                    'Kiss me for five minutes straight. The kiss can change in intensity, but our lips cannot break contact.',
+                    'Pin me against the nearest wall and give me a passionate, demanding kiss.',
+                    'I will lie still. You are to explore my body, but you can only use your lips and kisses.',
+                    'Recreate our very first kiss, as best as you can remember it.',
+                    'Give me 20 kisses, but none of them can be on my lips.',
+                    'Let\'s practice French kissing. We\'ll focus only on the movement of our tongues for a full minute.',
+                    'Start by kissing my forehead, slowly moving down my face and neck, and end with the most passionate kiss on the lips you can give.',
+                    'Your challenge is to make me breathless with just one single, perfect kiss.',
+                    'Lie me down. I want you to kiss your way from my toes all the way up to my lips.',
+                    'Let\'s kiss in front of a mirror, watching each other\'s expressions as we do.'
+                ],
+                'Body Exploration': [
+                    'I will lie down with my eyes closed. For five minutes, you will explore my body. Your goal is to find a new sensitive spot you didn\'t know about.',
+                    'Let me watch you touch yourself for two minutes. Show me what you like.',
+                    'Your turn. I want you to guide my hand and show me exactly how you like to be touched.',
+                    'Let\'s get into the shower. Your task is to soap up and wash every inch of my body by hand. Then I\'ll do the same for you.',
+                    'Point to a part of your body you want me to pay special attention to right now.',
+                    'I want to watch you undress. Take your time and enjoy the feeling of my eyes on you.',
+                    'Use your mouth to pleasure me in a place other than my primary erogenous zones. Be creative.',
+                    'I get to place your hands wherever I want on my body. They have to stay there until I move them.',
+                    'Let\'s experiment with temperature. Use your warm breath or a cool drink to create sensations on my skin.',
+                    'For the next 10 minutes, there is no "end goal." We will simply touch, explore, and enjoy the physical sensations without pressure for more.'
+                ],
+                'Taking Control': [
+                    'For the next 15 minutes, you are my pleasure object. I am in complete control. Your only job is to receive.',
+                    'Tie my hands gently with a scarf or tie. Now that I\'m vulnerable, take the lead.',
+                    'Sit back and do nothing. I am going to pleasure you, and I want you to give me verbal directions. Tell me "faster," "slower," "right there."',
+                    'Position me exactly how you want me. Don\'t ask, just move my body into the position you desire.',
+                    'Whisper in my ear exactly what you are going to do to me, step-by-step. Then, do it.',
+                    'Your turn to take control. My hands are behind my back. Your move.',
+                    'You must maintain eye contact with me while you bring me to pleasure.',
+                    'I want you to choose the position, the pace, and the rhythm. I will follow your lead completely.',
+                    'Let\'s try some light spanking. You decide where, and how hard.',
+                    'Beg me. Ask me for exactly what you want me to do to you.'
+                ],
+                'Peak Performance': [
+                    'Let\'s try a position we have never tried before. We can look one up if we need inspiration.',
+                    'Tonight, we try "edging." Bring me to the very brink of orgasm, then back off. Do this three times before the final release.',
+                    'I want to be on top. I will control the depth, speed, and rhythm until I am satisfied.',
+                    'Let\'s have a "quickie" right here, right now, with as much urgency and passion as possible.',
+                    'Let\'s try having sex in a different room of the house.',
+                    'I want you to talk dirty to me. Describe everything you\'re feeling and everything you want to do to me as it\'s happening.',
+                    'Can we try to climax at the exact same time? Let\'s communicate and coordinate to make it happen.',
+                    'Let\'s use a mirror. I want to watch us having sex.',
+                    'Let\'s focus on your pleasure entirely. I will do whatever it takes to give you the most intense orgasm possible. My pleasure can wait.',
+                    'No hands allowed for either of us during intercourse. We can only use our bodies and mouths to enhance the pleasure.'
+                ]
+            };
+
+            let currentCategory = '';
+            let availableCards = [];
+            let currentPlayer = 'male';
+
+            const screens = document.querySelectorAll('.screen');
+            const startGameBtn = document.getElementById('start-game-btn');
+            const categoryButtonsContainer = document.getElementById('category-buttons');
+            const drawCardBtn = document.getElementById('draw-card-btn');
+            const backToCategoriesBtn = document.getElementById('back-to-categories-btn');
+            const cardTextElement = document.getElementById('card-text');
+            const maleIcon = document.getElementById('male-icon');
+            const femaleIcon = document.getElementById('female-icon');
+            const playerLabel = document.getElementById('player-label');
+
+            function showScreen(screenId) {
+                screens.forEach(screen => screen.classList.toggle('active', screen.id === screenId));
+            }
+
+            function setupCategoryButtons() {
+                categoryButtonsContainer.innerHTML = '';
+                for (const category in cards) {
+                    const button = document.createElement('button');
+                    button.textContent = category;
+                    button.dataset.category = category;
+                    categoryButtonsContainer.appendChild(button);
+                }
+            }
+            
+            function resetDeck() { 
+                availableCards = [...cards[currentCategory]]; 
+            }
+
+            function selectCategory(category) {
+                currentCategory = category;
+                resetDeck();
+                currentPlayer = Math.random() < 0.5 ? 'male' : 'female';
+                showScreen('game-screen');
+                drawCard();
+            }
+            
+            function updatePlayerDisplay() {
+                const isMale = currentPlayer === 'male';
+                maleIcon.style.display = isMale ? 'block' : 'none';
+                femaleIcon.style.display = !isMale ? 'block' : 'none';
+                playerLabel.textContent = isMale ? "His Turn" : "Her Turn";
+            }
+
+            function drawCard() {
+                if (availableCards.length === 0) resetDeck();
+
+                updatePlayerDisplay();
+
+                const cardIndex = Math.floor(Math.random() * availableCards.length);
+                const cardContent = availableCards.splice(cardIndex, 1)[0];
+                
+                cardTextElement.textContent = cardContent;
+
+                currentPlayer = (currentPlayer === 'male') ? 'female' : 'male';
+            }
+
+            // Event listeners
+            startGameBtn.addEventListener('click', () => showScreen('category-screen'));
+            categoryButtonsContainer.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') selectCategory(e.target.dataset.category);
+            });
+            drawCardBtn.addEventListener('click', drawCard);
+            backToCategoriesBtn.addEventListener('click', () => {
+                showScreen('category-screen');
+            });
+
+            // Initialize
+            setupCategoryButtons();
+            showScreen('start-screen');
+        });
+    </script>
+</body>
+</html>
