@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Minute of Sin</title>
+    <title>The Devil's Deck</title>
     <meta name="robots" content="noindex, nofollow">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -24,7 +23,7 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Prevents scrolling on mobile */
+            overflow: hidden;
             font-family: 'Jost', sans-serif;
             background-color: var(--bg-color);
             color: var(--primary-text);
@@ -94,69 +93,98 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            height: 100%;
-            padding: 2rem;
+            height: 100vh;
+            padding: 1.5rem;
             box-sizing: border-box;
             text-align: center;
         }
 
         .header {
             width: 100%;
+            flex-shrink: 0;
         }
 
         .header h1 {
             font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             color: var(--accent-gold);
             margin: 0;
             text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
         }
 
         .action-card {
-            background: var(--card-bg);
+            background-color: var(--card-bg);
             padding: 2.5rem;
             border-radius: 20px;
             border: 1px solid rgba(212, 175, 55, 0.2);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             max-width: 600px;
-            width: 90%;
-            flex-grow: 1;
+            width: 100%;
+            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            margin: 1.5rem 0;
+            margin: 1rem 0;
             transition: transform 0.5s ease, opacity 0.5s ease;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
         }
         
         .action-card.fade-out {
             transform: scale(0.95);
             opacity: 0;
         }
-
-        .gender-icon {
-            font-size: 5.5rem; /* <<<--- ICON SIZE INCREASED HERE */
-            margin-bottom: 1rem;
-            color: var(--accent-crimson);
-            line-height: 1; /* prevent extra spacing */
+        
+        /* UPDATED: Image Icon Background Styling */
+        .gender-icon-bg {
+            position: absolute;
+            top: 50%;
+            right: -40px; /* Peek from the side */
+            width: 50%;   /* Relative width */
+            height: 80%;  /* Relative height */
+            transform: translateY(-50%) rotate(-10deg); /* Tilt slightly */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            opacity: 0.4; /* Make it very subtle */
+            z-index: 0;
+            pointer-events: none;
+            transition: background-image 0.5s ease-in-out, opacity 0.5s ease;
         }
 
+        .gender-icon-bg.male {
+            background-image: url('https://githue444.github.io/spice/eggplant.png');
+        }
+
+        .gender-icon-bg.female {
+            background-image: url('https://githue444.github.io/spice/peach.png');
+            right: -50px; /* Adjust for different shape */
+            transform: translateY(-50%) rotate(10deg);
+        }
+        
         #actionText {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             line-height: 1.6;
-            min-height: 100px; /* Reserve space to avoid layout shifts */
+            min-height: 80px;
+            position: relative;
+            z-index: 1;
+            text-align: left;
+            width: 100%;
         }
         
         .button-container {
             width: 100%;
-            padding-top: 1.5rem;
+            padding-top: 1rem;
+            flex-shrink: 0;
         }
 
         #nextActionBtn {
             font-family: 'Cinzel', serif;
             font-weight: 700;
-            font-size: 1.2rem;
-            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            padding: 0.9rem 2.2rem;
             background: var(--accent-gold);
             color: var(--bg-color);
             border: none;
@@ -167,121 +195,110 @@
         }
         
         #nextActionBtn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(212, 175, 55, 0.4);
         }
         
-        .stopwatch {
+        .timer-section {
             width: 100%;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            padding-bottom: 1rem;
+            gap: 1.5rem;
+            padding: 1rem 0 0.5rem 0;
+            flex-shrink: 0;
         }
 
         #timerDisplay {
-            font-size: 3rem;
-            font-family: 'Jost', sans-serif;
+            font-size: 2rem;
+            font-family: 'Cinzel', serif;
             font-weight: 400;
             color: var(--primary-text);
-            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
         }
         
         #timerBtn {
-            background: none;
-            border: 2px solid var(--primary-text);
-            color: var(--primary-text);
-            border-radius: 50px;
-            width: 150px;
-            height: 60px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--accent-gold);
+            border-radius: 25px;
+            width: 80px;
+            height: 35px;
             cursor: pointer;
             transition: all 0.3s ease;
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            font-weight: 700;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
         }
         
         #timerBtn:hover {
-            background: rgba(212, 175, 55, 0.1);
+            background: rgba(212, 175, 55, 0.2);
             border-color: var(--accent-gold);
         }
 
         #timerBtn.stop-state {
             border-color: var(--accent-crimson);
             color: var(--accent-crimson);
+            background: rgba(220, 20, 60, 0.1);
         }
         
         #timerBtn.stop-state:hover {
-            background: rgba(220, 20, 60, 0.1);
+            background: rgba(220, 20, 60, 0.2);
         }
-
 
         /* Responsive adjustments */
         @media (max-width: 600px) {
-            #splash-screen h1 {
-                font-size: 2.5rem;
-            }
-            #splash-screen p {
-                font-size: 1rem;
-            }
-            .container {
-                padding: 1rem;
-            }
-            .header h1 {
-                font-size: 2rem;
-            }
-            .action-card {
-                padding: 1.5rem;
-            }
-            .gender-icon {
-                font-size: 4.5rem; /* <<<--- ICON SIZE INCREASED FOR MOBILE */
-            }
-            #actionText {
-                font-size: 1.1rem;
-            }
-            #nextActionBtn {
-                padding: 0.8rem 2rem;
-                font-size: 1rem;
-            }
-            #timerDisplay {
-                font-size: 2.5rem;
-            }
-            #timerBtn {
-                width: 120px;
-                height: 50px;
-                font-size: 1rem;
-            }
+            .container { padding: 1rem; }
+            #splash-screen h1 { font-size: 2.5rem; }
+            #splash-screen p { font-size: 1rem; }
+            .header h1 { font-size: 1.8rem; }
+            .action-card { padding: 1.8rem 1.5rem; margin: 0.8rem 0; }
+            .gender-icon-bg { right: -30px; }
+            .gender-icon-bg.female { right: -40px; }
+            #actionText { font-size: 1.2rem; }
+            #nextActionBtn { padding: 0.8rem 1.8rem; font-size: 1rem; }
+            .timer-section { gap: 1rem; padding-top: 0.8rem; }
+            #timerDisplay { font-size: 1.6rem; }
+            #timerBtn { width: 70px; height: 32px; font-size: 0.8rem; }
         }
 
+        @media (max-height: 650px) {
+            .container { padding: 0.8rem; }
+            .header h1 { font-size: 1.6rem; margin-bottom: 0.5rem; }
+            .action-card { padding: 1.5rem; margin: 0.5rem 0; }
+            #actionText { font-size: 1.1rem; line-height: 1.5; }
+            .timer-section { padding-top: 0.5rem; }
+            #timerDisplay { font-size: 1.4rem; }
+        }
     </style>
 </head>
 <body>
 
     <div id="splash-screen">
-        <h1>Minute of Sin</h1>
-        <p>One partner tempts, the other endures for 60 seconds of sin.<br>Then, the roles reverse and a new temptation is revealed.</p>
+        <h1>The Devil's Deck</h1>
+        <p>A game of wicked indulgence and carnal commands.<br>Each card is a sixty-second descent into pure, unadulterated pleasure.</p>
         <button id="startGameBtn">Begin</button>
     </div>
 
     <div id="game-container" class="container hidden">
         
         <div class="header">
-            <h1>Minute of Sin</h1>
+            <h1>The Devil's Deck</h1>
         </div>
 
         <div class="action-card" id="actionCard">
-            <div id="genderIcon" class="gender-icon"></div>
+            <div id="genderIconBg"></div>
             <p id="actionText">Get ready...</p>
         </div>
 
         <div class="button-container">
-            <button id="nextActionBtn">Next Sin</button>
+            <button id="nextActionBtn">Next Command</button>
         </div>
 
-        <div class="stopwatch">
+        <div class="timer-section">
             <div id="timerDisplay">1:00</div>
             <button id="timerBtn">START</button>
         </div>
@@ -289,107 +306,112 @@
     </div>
 
     <script>
+        // Her Turn (He pleasures her)
         const actionsForHer = [
-            "Take one of her nipples into your mouth and gently flick it with your tongue for one continuous minute.",
-            "Gently bite and nibble on the softest, meatiest part of her buttocks for 60 seconds.",
-            "Use both hands to cup and jiggle her breasts for a full minute, watching them move.",
-            "Insert two fingers inside her vagina and make a 'come hither' motion against her G-spot for 60 seconds.",
-            "Gently pinch, twist, and pull on her nipples for one minute, alternating between them every 10 seconds.",
-            "Firmly massage her breasts in slow, deep circles for 60 seconds, as if you're kneading dough.",
-            "Use your fingernails to lightly scratch circles all over her butt cheeks for 60 seconds.",
-            "Use your mouth to suck a hickey onto the upper swell of one of her breasts. Spend the whole minute creating it.",
-            "Squeeze one of her ass cheeks in each hand, kneading them firmly for a full minute.",
-            "Slide two fingers deep inside her and then scissor them open and closed for 60 seconds.",
-            "Lightly run your fingernails all around her breasts and nipples for one minute, awakening every nerve.",
-            "Lay her on her stomach and use both hands to give her a deep, sensual butt massage for one minute.",
-            "Take her entire nipple and areola into your mouth and suckle strongly for 60 seconds.",
-            "With one hand, cup and squeeze one of her ass cheeks while your other hand stimulates her clitoris.",
-            "Hold one breast in your hand and use your other hand’s thumb to rub her nipple in circles for 60 seconds.",
-            "Use your fingers to gently stretch her labia open, holding them exposed to the air for one minute while you whisper what you see.",
-            "Firmly spank her ass with the flat of your hand in a steady rhythm for 60 seconds while telling her why she’s getting it.",
-            "Use one finger to apply firm, steady pressure directly on her clitoris for one minute without any other movement.",
-            "Lick and kiss the underboob—the sensitive crease where her breast meets her chest—for 60 seconds.",
-            "Insert three fingers inside her and hold them completely still, just filling her for one minute.",
-            "Use both hands to lift her butt cheeks up towards you, admiring their shape and weight for a minute.",
-            "Blow soft, cool breaths onto her wet nipples for one minute, making them pebble.",
-            "Grab a handful of her ass in each hand and jiggle it vigorously for one minute.",
-            "Insert one finger inside her and slowly trace circles around the inside of her vaginal entrance for 60 seconds.",
-            "Gently bite her nipples, just enough to make her gasp, alternating between them for a minute.",
-            "Press your cheek firmly against one of her ass cheeks while you massage the other for a minute.",
-            "Use your thumbs to press and massage the fleshy mounds of her breasts for a full minute.",
-            "With two fingers inside her, press firmly upwards and then pulse them for 60 seconds.",
-            "Use your index and thumb to roll her nipple back and forth between them for 60 seconds.",
-            "Grab her hips, spread her cheeks, and just gaze at the beautiful curve of her ass for one minute.",
-            "Rest your palm over one of her breasts, just feeling its weight and warmth for 60 seconds.",
-            "Use your tongue to trace the entire outline of her panties (or where they would be) on her skin.",
-            "Cup one of her breasts and use your tongue to lick it from the base to the nipple in slow, deliberate stripes for 60 seconds.",
-            "Put as many fingers as you can comfortably fit inside her vagina and stretch her gently for 60 seconds.",
-            "Gently squeeze the base of her nipple with your lips, applying light suction for one minute.",
-            "With one finger on her clitoris, and another inside her vagina, stimulate both at the same time with varying rhythms for one full minute.",
-            "Use your teeth to gently rake down her inner thighs, making her shiver for 60 seconds.",
-            "Slowly drag your fingernails from her navel down to her pubic mound, repeating for 60 seconds.",
-            "Rub your stubbled chin vigorously against her inner thighs for 60 seconds, creating friction and heat.",
-            "Use your thumbs to deeply massage the perineum, pressing firmly for 60 seconds.",
-            "Alternate between flicking and pinching her nipples for one full minute, escalating the intensity.",
-            "With firm, open-mouthed kisses, suck intensely on her neck and collarbone for 60 seconds.",
-            "Use your warm breath to blow intensely on her wet clitoris, then suck it gently for a moment, repeating for 60 seconds.",
-            "Kiss and suck on her inner thighs, moving higher and higher towards her core for the entire minute.",
-            "Use the flat of your hand to firmly caress her pubic area, applying increasing pressure for 60 seconds.",
-            "Position her over your lap and spank her firmly with rhythmic, open-handed slaps for 60 seconds, leaving her skin flushed.",
-            "Cradle her head in your hands and stare intensely into her eyes for 60 seconds, whispering how much you desire her.",
-            "Gently pinch and twist her nipples, then immediately use your warm breath to soothe them, repeating for one minute."
+            "G-Spot Focus: Slide two fingers deep inside her, curl them in a 'come here' motion, and find her G-spot. Apply firm, rhythmic pressure while your thumb makes slow, deliberate circles on her clit.",
+            "Deep Ass Worship: Lay her on her stomach. Straddle her legs and give her a powerful, deep-tissue ass massage. Use your palms, thumbs, and the heels of your hands to press, knead, and roll her muscles, spreading her cheeks wide.",
+            "Nipple Torture & Treat: Suck one nipple into your mouth, pulling on it firmly. Use your tongue to flick and swirl around the tip before switching to light, sharp bites. Alternate between rough and gentle on each breast.",
+            "The Edge of Entry: Press the head of your cock against her wet folds. Grind up and down her slit with agonizing slowness, never entering, letting her feel every vein and the heat of your shaft.",
+            "Primal Pin: Pin her thighs wide open with your hands. Hold her still as you rub her clit with the steady, unyielding pressure of your thumb, staring into her eyes as you do.",
+            "The Over-the-Knee Spank: Pull her over your lap, face down. Deliver a series of firm, stinging spanks to each ass cheek, alternating hands. After a set of slaps, rub the sting away with your warm palm before beginning again.",
+            "Spinal Kiss: Have her arch her back. Kiss a slow, wet trail from the nape of her neck all the way down her spine to the top of her ass crack, using gentle bites along the way.",
+            "The Shaft Drag: Rest your cock between her ass cheeks. Slowly drag its full length up and down her crack, pressing it firmly against her, teasing her with the promise of what's to come.",
+            "Inner Thigh Torment: Use just the tips of your fingernails to trace impossibly light lines up and down her inner thighs. Repeat the path over and over, getting closer to her center with each pass but never touching it.",
+            "The Throat Hold: Gently wrap one hand around her throat, applying just enough pressure to make her feel your dominance. Use your other hand to finger her with two deep, slow, rhythmic strokes.",
+            "Rough & Reverent: Grip her tits with force, squeezing and tugging them until she gasps. Immediately follow with soft, sweeping caresses and whispered praise about their shape and softness.",
+            "The Scissor: Slide two fingers just inside her opening. Slowly and deliberately open and close them like a pair of scissors, stretching her gently with each movement.",
+            "Breast Devotion: Take an entire breast into your mouth, sucking hard as if trying to pull it all in. Swirl your tongue around the whole areola, paying attention to every inch of skin.",
+            "Full Body Worship: Give her a strong, seamless full-body massage. Start at her shoulders, move down her spine, knead her hips and ass, and finish by stroking down her thighs to her calves in one continuous, flowing rhythm.",
+            "The Wall Press: Press her body firmly against a wall. Hook one of her legs over your hip, pinning her, and slowly grind the length of your erection against her mound.",
+            "Palm Pressure: Use the firm heel of your palm to press down hard on her mound. Maintain the pressure while making slow, deep circles, feeling her clit through her folds.",
+            "Neck & Lip Bite: With one hand holding her chin firmly, repeatedly bite her lower lip, pulling it gently with your teeth. Your other hand should be teasing the sensitive skin high on her inner thigh.",
+            "The Leg Lift: Lay her on her back and lift her legs, resting them over your shoulders. Slowly drag your shaft up and down her exposed, dripping slit.",
+            "Hip Grip Thrust: Grab her hips firmly from behind. Thrust your cock between her thighs from the back, grinding against the base of her ass without entering.",
+            "The Squeeze & Suck: Place your hands on both her breasts and squeeze with alternating pressure—right, then left, right, then left. Lower your head and suck on the valley between them.",
+            "Body Slide: Lie on top of her, pinning her down with your body weight. With your hands gripping her thighs, grind your full length along her slit in a slow, rocking motion.",
+            "Ass Lift & Inhale: Slide your hands completely under her ass cheeks and lift her hips towards your face. Bury your nose in the crease where her thigh meets her pelvis and inhale her scent deeply while kissing the area.",
+            "Head to Slit Drag: Drag the slick head of your cock from the top of her mound, down across her clit, and to her opening. Repeat this, watching her twitch with every pass.",
+            "Pelvic Kiss: Kiss a slow, deliberate path up the inside of one thigh, across her lower belly just above her pubic bone, and down the other thigh. Then do it again, but slower.",
+            "The Hot Breath: Hold her hips firmly. Lower your mouth so it’s an inch from her slit and breathe hot air onto her, letting her feel the warmth without any touch.",
+            "The Double Trail: Use your thumbs to trace a path from her hip bones down to the top of her mound, meeting in the middle. Repeat, applying more pressure each time.",
+            "Ass Frame: Frame her ass with both hands, thumbs meeting at her lower back and fingers wrapping around her cheeks. Squeeze and lift rhythmically.",
+            "Underboob Tease: Ignore her nipples completely. Instead, focus on flicking, licking, and gently biting the sensitive curve on the underside of her breasts.",
+            "Slow Finger Pull: Insert two fingers as deep as they’ll go. Instead of thrusting, slowly and deliberately pull them almost all the way out before sliding them back in, creating a wet, resistant rhythm.",
+            "The Overhead View: Stand over her as she lies on her back. Dangle your cock just above her face, then lower it to gently brush the tip against her lips and cheeks.",
+            "Inner Arm & Rib Kiss: Kiss the intensely sensitive skin of her inner arm, from her wrist to her armpit. Then, trail kisses down her rib cage, feeling her squirm.",
+            "The Figure Eight: Use your thumb to trace a slow figure-eight pattern over her mound, with the center of the eight crossing directly over her clit.",
+            "Shoulder Blade Focus: With her on her stomach, spend the entire time kissing, licking, and gently sucking on her shoulder blades and the muscles around them.",
+            "The Hair Pull & Grind: Gently but firmly grasp a handful of her hair at the roots. Pull her head back to expose her neck while you grind your hips against hers.",
+            "The Mute Button: Place your thumb firmly on her lips while you finger her with your other hand, maintaining eye contact and a steady rhythm.",
+            "Calf & Ankle Massage: Kneel at her feet. Give her a deep, sensual massage concentrating only on her calves, ankles, and feet, stroking firmly up towards her knees.",
+            "The Reverse Straddle: Have her straddle your chest, facing your feet. Grab her hips and press her mound against your mouth and chin, moving your head so she rubs against you.",
+            "Ear & Neck Devotion: Devote the entire time to one side of her neck. Use your mouth to suck, lick, and bite from her earlobe down to her collarbone, groaning softly into her skin.",
+            "The Thigh Squeeze: Kneel between her open legs. Place your hands on the outside of her thighs and squeeze them together, trapping your hard cock between them as you rock your hips.",
+            "The Body Pin: Lie completely on top of her, matching your bodies limb for limb. Pin her wrists above her head and do nothing but let her feel your weight and your erection pressing into her.",
+            "Belly Button Worship: Focus solely on the area around her navel. Kiss, lick, and swirl your tongue inside it and around the soft skin of her lower stomach.",
+            "The Face Cradle: Cradle her face in both hands. Stare into her eyes and kiss her slowly, deeply, and passionately, letting your tongue explore her mouth while your body remains still.",
+            "The Slow Spread: Place your thumbs at the center of her slit and slowly, firmly press outwards, stretching her gently as you expose her opening.",
+            "The Hip Rock: Sit facing her, her legs wrapped around your waist. Grip her ass and rock her back and forth on your lap, grinding your erections together.",
+            "Collarbone Nibbles: Use only your lips and teeth to gently nibble a path along her entire collarbone, from one shoulder to the other and back again.",
+            "The Palm Slide: Place your palm flat against her stomach. Slowly slide it down over her mound, between her legs, and cup her ass, then slide it back up in one continuous, sensual motion.",
+            "The Rhythmic Squeeze: Cup her breasts from underneath. Squeeze them rhythmically in time with your breathing, watching them move in your hands.",
+            "Cheek-to-Cheek: Rest your cheek against her ass cheek. Gently rub your face against her skin while your hands massage her lower back.",
+            "Behind the Knees: Kiss and lick the sensitive, soft skin behind her knees, a spot that's often neglected but incredibly ticklish and erotic.",
+            "The Still Point: Finger her with a steady, deep rhythm. At a random moment, stop all movement completely, holding your fingers deep inside her and your thumb on her clit without moving a muscle. Hold the stillness until she starts to squirm."
         ];
 
+        // His Turn (She pleasures him)
         const actionsForHim = [
-            "Use both hands to slowly massage his testicles for one minute, applying gentle, consistent pressure.",
-            "For 60 seconds, use only your hair to tickle and tease his chest, stomach, and inner thighs.",
-            "Lick a slow, wet stripe from the base of his shaft to the tip and back down again for one minute.",
-            "Spend 60 seconds using your breasts to rub up and down his chest and stomach.",
-            "Grip the base of his penis firmly with one hand and use the other to gently flick his nipples for one minute.",
-            "Take the head of his penis into your mouth and focus only on swirling your tongue around the rim for one minute.",
-            "Kneel before him and spend one minute just looking at his erection while you sensually lick your lips. Do not touch.",
-            "For 60 seconds, use your tongue to lick the 'V' lines of his lower abdomen, from his hips down towards his crotch.",
-            "Straddle his face and hold your position for 60 seconds, letting him breathe you in.",
-            "Use your long nails to lightly scratch sensuous patterns all over his back and buttocks for one minute.",
-            "For 60 seconds, 'milk' his penis with well-lubricated hands in a slow, teasing rhythm.",
-            "Lay on top of him and grind your pubic bone against his erection for one minute without any other movement.",
-            "Use your mouth to gently bite and tug on his lower lip for 60 seconds while looking him in the eyes.",
-            "Take both of his testicles into your mouth at once and hold them gently for one minute.",
-            "For 60 seconds, press the flat of your tongue against the opening of his penis, applying gentle pressure.",
-            "Use your hands to stretch his legs as far apart as possible and spend the minute kissing his inner thighs.",
-            "Spend 60 seconds using your spit as lubricant to slowly masturbate him.",
-            "Wrap your hand around his erection and just squeeze rhythmically for one minute, like a heartbeat.",
-            "Press your ass against his crotch and grind back into him for 60 seconds.",
-            "Use one hand to play with his penis while you use the other to firmly grip and squeeze his buttocks.",
-            "For one minute, cup his testicles from behind and gently pull, creating a delicious tension.",
-            "Take as much of his shaft into your mouth as you can and just flex your throat muscles for 60 seconds.",
-            "Spend one minute kissing a wet trail from his navel down to the base of his penis.",
-            "Sit on his lap facing him and bounce gently for 60 seconds, letting him feel your heat.",
-            "For one minute, alternate between deep throating him for a few seconds and coming up to kiss him deeply on the lips.",
-            "Use a silk tie to lightly 'whip' his chest, stomach, and thighs for 60 seconds.",
-            "Devote one minute to licking and sucking his fingers, one by one.",
-            "Use your feet to massage and tease his penis and balls for 60 seconds.",
-            "Hold his head still and kiss him with dominating passion for one full minute.",
-            "For 60 seconds, lightly run your teeth up and down the length of his shaft.",
-            "Press the tip of his penis against your clitoris and just hold it there, grinding slightly for one minute.",
-            "For one minute, just hold his erection firmly in your hand without moving it, letting him feel your warm, tight grip.",
-            "Use a vibrator on his inner thighs and taint for 60 seconds.",
-            "Whisper for 60 seconds about how much you love the taste and feel of him.",
-            "Use both your hands to firmly grip and squeeze his buttocks for one minute.",
-            "Take his hand and guide it inside you, then for 60 seconds, just flex your PC muscles on his fingers.",
-            "Bounce on his erection in a steady rhythm for 60 seconds.",
-            "For one minute, cover his mouth with your hand while you use your other hand to masturbate him.",
-            "Put on lipstick and spend one minute leaving kisses all over his chest and stomach.",
-            "Sit on his face and gently grind for one minute.",
-            "For 60 seconds, just rub the head of his penis against your nipple.",
-            "Squeeze his nipples between your thumb and forefinger for one minute, varying the pressure.",
-            "For 60 seconds, use a 'double-handed' stroking technique on his shaft.",
-            "Put the very tip of his penis in your mouth and use suction to pull on it for 60 seconds.",
-            "Use your warm breath to blow directly onto his glans, then immediately suck it, creating an intense hot-cold sensation for 60 seconds.",
-            "For one minute, run your sharp fingernails teasingly down his spine and over his buttocks, sending shivers through him.",
-            "Rub your bare breasts against his chest and stomach for 60 seconds, generating intense friction and heat.",
-            "Spend 60 seconds using only your fingers to slowly and deliberately tease the underside of his scrotum, leading up to his perineum.",
-            "Use your hands to apply firm, deep pressure to his inner thighs, kneading them for 60 seconds."
+            "The Deep Throat Hold: Take his entire shaft into your mouth as deep as you can. Hold it at the base for a long count, letting him feel your throat, then slowly pull off until just the tip is in your lips before repeating.",
+            "The Tit Job: Press your tits together as tightly as you can. Place his cock between them and slide your breasts up and down his shaft, using your hands to keep them squeezed tight. Lick the head each time it emerges.",
+            "The Twisting Grip: Use both hands on his shaft. As you stroke up and down, twist your hands in opposite directions, one clockwise and one counter-clockwise, creating a tight, wringing sensation.",
+            "Thigh Ride: Straddle one of his thighs. Grind your pussy against his leg while you give him a steady, firm handjob, whispering in his ear what you're going to do to him later.",
+            "The Underside Lick: Use only your tongue to lick a slow, wet path from the base of his balls, up the underside of his shaft, to the very tip. Flick your tongue over the opening, then start again from the bottom.",
+            "The Ball & Shaft: Gently cup his balls in one hand, feeling their weight. Use your other hand to stroke his shaft with a steady, consistent rhythm, occasionally giving his balls a soft squeeze.",
+            "Body Worship: Straddle his hips and rub your breasts all over his chest and stomach. Press your nipples into his skin as you move down his body, kissing his neck and shoulders.",
+            "Tip Tease: Take only the purple head of his cock into your mouth. Use your tongue to swirl, suck, and tease just the tip while your hand maintains a slow, tight grip at his base.",
+            "The Mount & Beg: Mount him in a reverse cowgirl position. Rub your wet pussy up and down his shaft, holding your body just inches above his tip, making him beg you to slide down.",
+            "The Slow Suck: Kneel before him. Slowly, inch by inch, take his cock into your mouth. Once at the base, pull off even more slowly, using your lips to create suction all the way up.",
+            "The Floor-to-Ceiling: Start by sucking his balls, then move to licking his shaft, then take his cock deep in your throat. Cycle through these three actions without breaking rhythm while your hand strokes him.",
+            "The Moan & Stroke: Take him deep in your mouth and moan, letting him feel the vibrations. Pull off and continue stroking with your hand while you lick the spit off the head again and again.",
+            "Tongue Art: Hold his shaft firmly at the base with one hand. Use the tip of your tongue to trace letters or patterns all over the head of his cock.",
+            "Full Body Rub Down: Have him lie on his stomach. Give him a firm, sensual full-body massage, focusing on his back, ass, and the back of his thighs, letting your hands linger on his muscles.",
+            "The Breast Ride: Lie on top of him and ride his cock with your breasts, pressing them tightly against his shaft. Use your whole upper body to create a slow, grinding stroke.",
+            "The Show-Off: Sit between his legs, facing him. Stroke him slowly with one hand while you use the other to play with your own nipples, sucking on your fingers and making sure he watches you.",
+            "The Fantasy Fuel: Whisper your darkest, most detailed fantasy about him directly into his ear while you give him a slow, deliberate handjob.",
+            "The Ball Bath: Take both of his balls fully into your mouth one at a time, sucking on them gently. Alternate between his balls and giving his shaft long, deep strokes with your hand.",
+            "The Body Kiss: Lie beside him, facing him. Stroke his cock slowly with one hand while your other hand and mouth are dedicated to kissing every inch of his chest, shoulders, and neck.",
+            "The Clit & Cock Rub: Climb on top of him. Press your clit directly against the head of his cock and grind against him while kissing him deeply and gripping his wrists above his head.",
+            "Face First: Push your tits into his face, letting him grab and squeeze them. While he's occupied, give him a slow, wet handjob.",
+            "Finger Licking Good: While stroking him with one hand, take the fingers of his other hand into your mouth one by one. Suck and lick each finger slowly while looking up at him.",
+            "The Tip Lock: Take just the very tip of his cock between your lips and keep it there. Use only your tongue and lips to suck and swirl, creating intense, focused pleasure until he's twitching.",
+            "The Narrator: Tell him in explicit detail exactly what it feels like to have his cock in your hand. Describe the texture, the heat, and the way it twitches as you vary the speed and pressure of your strokes.",
+            "The Gag & Pump: Take the head of his cock in your mouth and gag on it softly, over and over. Use one hand to give him short, quick pumps in time with your gagging.",
+            "The Look-Back Stroke: Lie on top of him, facing his feet. Reach behind you to stroke his cock, showing off your ass while you control his pleasure.",
+            "Hip Bone Kisses: Kneel beside him and kiss and suck on his sharp hip bones, leaving marks. Let your hand slide over to his shaft and begin stroking.",
+            "The Pussy Pin: Pin his hands above his head and straddle his hips. Rub your wet folds up and down his cock, getting him soaked in your juices without letting him inside.",
+            "The No-Hands Blowjob: Rub your tits up and down his chest, then move down to his cock. Take him into your mouth without using your hands for support, using your head movements to pleasure him.",
+            "The Thigh Grind: Ride his thigh hard, grinding your pussy and moaning as if he were inside you, all while you jerk him off with intense focus.",
+            "The Neck Bite: Kiss and suck on his neck hard enough to leave a mark while jerking him off, alternating your grip from tight to loose as he reacts.",
+            "The Spit Shine: Spit a generous amount onto his cockhead. Use your palm to swirl it around, then use that lubrication for a slick, wet handjob.",
+            "The Gentle Scratch: Gently drag your nails up his inner thighs towards his cock, creating goosebumps. Then, wrap your hand around his shaft and begin to stroke.",
+            "The Tip Slap: Hold his cock upright and stiff. Gently and repeatedly kiss the very tip. Then, flick your tongue out and lightly slap his slit against it.",
+            "The Preview: Lick your lips slowly while you stroke him tightly. Describe, in detail, every place on your body he's going to be later tonight.",
+            "The Double Pleasure: Take his cock in one hand and your own breast in the other. Squeeze your nipple and moan while you stroke him, showing him how much you're enjoying touching both of them.",
+            "The Stare Down: Take just the head of his cock into your mouth. Ride it slowly with just your lips, then pull off, lock eyes with him, and give him a slow, deliberate hand stroke.",
+            "The Navel Trail: Kneel between his legs and give him slow, open-mouthed kisses from his navel down to the base of his cock. Trace the path back and forth with your tongue.",
+            "The Face Ride: Sit on his face, pinning his hands down. Reach down between your legs and give him a slow, steady handjob while you grind against his mouth.",
+            "The Ass & Cock Rub: Turn around and rub his hard cock between your ass cheeks. Press back into him, clenching your cheeks together to grip his shaft as you move.",
+            "The Compliment: Whisper filthy compliments about his cock—its size, its shape, the way it feels in your hand, its smell—while you provide slow, worshipful strokes.",
+            "The Hummer: Cup his balls with one hand and stroke him with the other. Keep your lips pressed firmly against the tip of his cock and hum a low, deep note, letting him feel the vibrations.",
+            "The 'Don't You Dare': Lie beside him and stroke him with excruciatingly slow, smooth movements from base to tip. Whisper 'Don't you dare' every time he starts to get close.",
+            "The Tease & Kiss: Kiss him deeply and passionately. Keep your hand on his cock the whole time, but instead of stroking, just give it random, teasing squeezes.",
+            "The Grind: Climb on top of him and place his cock between your folds. Grind against him lightly, letting the head of his cock rub against your clit without ever letting him slip inside.",
+            "The Body Slide: Start at his chest and slide your entire greased-up body (with his spit or your own) down his. Let your tits, stomach, and thighs rub against him while your hand gives him a hard, fast handjob.",
+            "The Rhythmic Slap: Hold his shaft at the base. Use the fingers of your other hand to gently but rhythmically slap his shaft, alternating with long, smooth strokes.",
+            "The Eye Contact Stroke: Maintain deep, unbroken eye contact with him while you jerk him off. Don't look away, even for a second. Let him see the pleasure in your eyes.",
+            "The Base Hold: Grip his cock firmly at the very base, where it meets his body. Hold it there, applying pressure, while you use your other hand to deliver short, quick strokes to the upper half of his shaft.",
+            "The Final Worship: Kneel before him. Use one hand to stroke, the other to cup his balls. Use your mouth to worship everything—lick the shaft, suck the head, inhale his scent, kiss his inner thighs—a final, all-encompassing act of devotion."
         ];
 
         // --- Element References ---
@@ -398,7 +420,7 @@
         const gameContainer = document.getElementById('game-container');
         
         const actionCard = document.getElementById('actionCard');
-        const genderIcon = document.getElementById('genderIcon');
+        const genderIconBg = document.getElementById('genderIconBg');
         const actionText = document.getElementById('actionText');
         const nextActionBtn = document.getElementById('nextActionBtn');
         
@@ -406,31 +428,57 @@
         const timerBtn = document.getElementById('timerBtn');
 
         // --- State Variables ---
-        let currentGender; // 'male' means his turn, 'female' means her turn
+        let currentGender;
         let timer;
         let timeLeft = 60;
         let timerRunning = false;
+        let usedHerActions = [];
+        let usedHimActions = [];
 
         // --- Functions ---
+        function getUniqueAction(gender) {
+            if (gender === 'male') {
+                if (usedHerActions.length === actionsForHer.length) usedHerActions = [];
+                let action;
+                do { action = actionsForHer[Math.floor(Math.random() * actionsForHer.length)]; } 
+                while (usedHerActions.includes(action));
+                usedHerActions.push(action);
+                return action;
+            } else {
+                if (usedHimActions.length === actionsForHim.length) usedHimActions = [];
+                let action;
+                do { action = actionsForHim[Math.floor(Math.random() * actionsForHim.length)]; } 
+                while (usedHimActions.includes(action));
+                usedHimActions.push(action);
+                return action;
+            }
+        }
+
+        // UPDATED JAVASCRIPT
         function setNextAction() {
-            // Switch gender
             currentGender = (currentGender === 'male') ? 'female' : 'male';
             
-            let action;
-            if (currentGender === 'male') {
-                genderIcon.innerHTML = `<span class="material-symbols-outlined">male</span>`;
-                action = actionsForHer[Math.floor(Math.random() * actionsForHer.length)];
-            } else {
-                genderIcon.innerHTML = `<span class="material-symbols-outlined">female</span>`;
-                action = actionsForHim[Math.floor(Math.random() * actionsForHim.length)];
+            let fullAction;
+            if (currentGender === 'male') { // It's HIS turn to pleasure HER
+                genderIconBg.className = 'gender-icon-bg male';
+                fullAction = getUniqueAction('male');
+            } else { // It's HER turn to pleasure HIM
+                genderIconBg.className = 'gender-icon-bg female';
+                fullAction = getUniqueAction('female');
             }
-            actionText.textContent = action;
+
+            const colonIndex = fullAction.indexOf(':');
+            if (colonIndex !== -1) {
+                const title = fullAction.substring(0, colonIndex + 1);
+                const description = fullAction.substring(colonIndex + 1);
+                actionText.innerHTML = `<b>${title}</b>${description}`;
+            } else {
+                actionText.textContent = fullAction;
+            }
         }
         
         function showNextActionWithFade() {
-            if (timerRunning) {
-                resetTimer();
-            }
+            if (timerRunning) resetTimer();
             actionCard.classList.add('fade-out');
             
             setTimeout(() => {
@@ -456,7 +504,7 @@
                 updateTimerDisplay();
                 if (timeLeft <= 0) {
                     resetTimer();
-                    if (navigator.vibrate) navigator.vibrate(200);
+                    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
                 }
             }, 1000);
         }
@@ -482,10 +530,7 @@
             splashScreen.classList.add('hidden');
             gameContainer.classList.remove('hidden');
             
-            // Randomly determine who starts
             currentGender = Math.random() < 0.5 ? 'male' : 'female';
-            
-            // Call with the opposite so the first click sets it right
             currentGender = (currentGender === 'male') ? 'female' : 'male'; 
             setNextAction();
         }
