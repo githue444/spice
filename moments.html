@@ -8,27 +8,28 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
         :root {
             --gold-color: #c4a265;
             --dark-bg: #1a1a1d;
             --light-text: #e0e0e0;
+            --primary-cta-color: #a07d3a;
         }
 
         html, body {
             height: 100%;
             margin: 0;
             overflow: hidden;
+            font-family: 'Raleway', sans-serif;
+            color: var(--light-text);
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
-            font-family: 'Raleway', sans-serif;
-            color: var(--light-text);
-            text-align: center;
-            -webkit-tap-highlight-color: transparent;
             background-color: var(--dark-bg);
-            background-image: linear-gradient(rgba(26, 26, 29, 0.8), rgba(26, 26, 29, 0.8)), url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAf/AABEIAAUACgMBEQACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1VWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i_usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6AQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgsQAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A9/8Ai/8AHLU/hTqOgaB4B+HemeK/ih46vLuz8H+Gde8QSeHtLubnT7OS/wBSutT1iHTtTns7GzsYJJZIdMu5GfbGkRZg9eGf8NU/tWf9GE+IP8Aw/vhD/5TV5T+1l/ykQ/ZF/7Jh+0F/6kfCKvqqgD//Z');
+            background-image: linear-gradient(rgba(26, 26, 29, 0.8), rgba(26, 26, 29, 0.8)), url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAf/AABEIAAUACgMBEQACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1VWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i_usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6AQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgsQAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlVUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A9/8Ai/8AHLU/hTqOagaB4B+HemeK/ih46vLuz8H+Gde8QSeHtLubnT7OS/1BSutT1iHTtTns7GzsYJJZIdMu5GfbGkRZg9eGf8NU/tWf9GE+IP8Aw/vhD/5TV5T+1l/ykQ_ZF/7Jh+0F/6kfCKvqqgD//Z');
             background-size: cover;
             background-position: center center;
             background-attachment: fixed;
@@ -37,15 +38,25 @@
         h1, h2 {
             font-family: 'Cormorant Garamond', serif;
             font-weight: 700;
-            font-size: 3rem;
             color: var(--gold-color);
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 3rem;
             margin-bottom: 0.5rem;
+        }
+        
+        h2 {
+           font-size: 2.5rem;
+           margin-bottom: 1.5rem;
         }
 
         .screen {
             display: none;
             width: 100%;
             height: 100%;
+            padding: 20px;
             box-sizing: border-box;
             animation: fadeIn 0.5s ease-in-out;
         }
@@ -58,12 +69,18 @@
         .screen.active {
             display: flex;
             flex-direction: column;
-        }
-        
-        #start-screen, #category-screen {
             justify-content: center;
             align-items: center;
-            padding: 20px;
+        }
+        
+        .content-container {
+            text-align: center;
+        }
+        
+        #start-screen p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
 
         button {
@@ -91,161 +108,167 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 15px;
-            margin-top: 2rem;
+            margin-top: 1rem;
         }
 
-        #game-screen.active { 
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            min-height: 100vh;
-        }
-        
         #game-screen-content {
-            width: 100%;
-            max-width: 500px;
             display: flex;
             flex-direction: column;
-            height: auto;
+            align-items: center;
+            width: 100%;
+            max-width: 550px;
+            gap: 1rem;
         }
         
-        #player-area { 
-            padding: 15px 0;
-            flex-shrink: 0;
-            text-align: center;
+        .game-header {
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .game-header h2 {
+            font-size: 1.8rem;
+            margin: 0;
+            color: var(--light-text);
+        }
+
+        #change-category-link {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--gold-color);
+            text-decoration: none;
+            opacity: 0.8;
+            white-space: nowrap;
         }
         
-        #card-container {
-            flex-shrink: 0;
+        #change-category-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        #player-area {
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 30px 20px;
+            gap: 10px;
+        }
+
+        #player-area i {
+            font-size: 2rem;
+            color: var(--gold-color);
+        }
+
+        #player-label {
+            color: var(--gold-color);
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        #card-container {
+            width: 100%;
+            padding: 25px;
+            box-sizing: border-box;
             background: rgba(26, 26, 29, 0.75);
             border-radius: 20px;
-            margin: 15px 0;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            min-height: 180px;
-            max-height: 300px;
-            overflow: hidden;
         }
 
-        #card-text { 
-            font-size: 1.2rem; 
-            line-height: 1.5; 
+        #card-text {
+            font-size: 1.2rem;
+            line-height: 1.5;
             font-weight: 500;
             text-align: center;
+            margin: 0;
         }
         
-        #game-footer { 
-            flex-shrink: 0; 
-            padding: 15px 0 0 0;
-            text-align: center;
+        #draw-card-btn {
+            background-color: var(--primary-cta-color);
+            border-color: var(--primary-cta-color);
+            font-weight: 600;
+            padding: 15px 35px;
+            box-shadow: 0 0 10px rgba(160, 125, 58, 0.6);
         }
-        
-        #player-area svg {
-            width: 40px;
-            height: 40px;
-            fill: var(--gold-color);
-        }
-        
-        #player-label { 
-            color: var(--gold-color); 
-            font-weight: 600; 
-            font-size: 1rem; 
-            margin: 8px 0 0 0; 
-        }
-        
-        #game-controls { 
-            margin-bottom: 15px;
-        }
-        
-        #game-controls button {
-            font-size: 0.9rem;
-            padding: 10px 20px;
-            background-color: rgba(196, 162, 101, 0.15);
-            border: 1px solid rgba(196, 162, 101, 0.4);
-            opacity: 0.8;
-        }
-        
-        #game-controls button:hover {
-            opacity: 1;
-            background-color: rgba(196, 162, 101, 0.25);
+
+        #draw-card-btn:hover {
+            background-color: var(--gold-color);
+            border-color: var(--gold-color);
+            color: var(--dark-bg);
+            box-shadow: 0 0 15px rgba(196, 162, 101, 0.8);
         }
 
         /* Desktop Layout */
         @media (min-width: 768px) {
-            #game-screen-content { 
-                max-width: 600px; 
+            #game-screen-content {
+                max-width: 600px;
+                gap: 1.5rem;
+            }
+
+            .game-header h2 {
+                font-size: 2rem;
+            }
+            
+            #player-area i {
+                font-size: 2.2rem;
+            }
+
+            #player-label {
+                font-size: 1.2rem;
             }
             
             #card-container {
-                min-height: 220px;
-                max-height: 350px;
-                padding: 40px 30px;
+                padding: 35px;
             }
 
-            #card-text { 
-                font-size: 1.4rem; 
+            #card-text {
+                font-size: 1.4rem;
                 line-height: 1.6;
             }
-            
-            #player-area svg {
-                width: 50px;
-                height: 50px;
-            }
-            
-            #player-label { 
-                font-size: 1.2rem; 
-            }
         }
+
     </style>
 </head>
 <body>
 
     <div id="start-screen" class="screen active">
-        <div>
+        <div class="content-container">
             <h1>Intimate Moments</h1>
-            <p>A game to connect and explore.</p>
+            <p>Ignite deeper connections and spark playful exploration.<br>Discover new ways to share and understand each other.</p>
             <button id="start-game-btn">Begin</button>
         </div>
     </div>
 
     <div id="category-screen" class="screen">
-        <div>
-            <h2>Choose a Category</h2>
+        <div class="content-container">
+            <h2>Choose Your Intimacy Journey</h2>
             <div id="category-buttons"></div>
         </div>
     </div>
 
     <div id="game-screen" class="screen">
         <div id="game-screen-content">
-            <div id="player-area">
-                <svg id="female-icon" style="display:none;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="8" r="4" fill="currentColor"/>
-                    <line x1="12" y1="12" x2="12" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    <line x1="9" y1="17" x2="15" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-                <svg id="male-icon" style="display:none;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="10" cy="14" r="4" fill="currentColor"/>
-                    <line x1="13.5" y1="10.5" x2="19" y2="5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    <polyline points="15,5 19,5 19,9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                </svg>
-                <p id="player-label"></p>
-            </div>
             
-            <div id="card-container">
-                <p id="card-text">Your card will appear here.</p>
+            <div class="game-header">
+                <h2 id="current-category-name"></h2>
+                <a href="#" id="change-category-link">Change</a>
             </div>
 
-            <div id="game-footer">
-                <div id="game-controls">
-                    <button id="draw-card-btn">Draw a New Card</button>
-                    <button id="back-to-categories-btn">Change Category</button>
-                </div>
+            <div id="player-area">
+                <i id="player-icon"></i>
+                <p id="player-label"></p>
             </div>
+
+            <div id="card-container">
+                <p id="card-text">Tap 'Draw a New Card' to begin.</p>
+            </div>
+
+            <div id="game-controls">
+                <button id="draw-card-btn">Draw a New Card</button>
+            </div>
+
         </div>
     </div>
 
@@ -322,11 +345,11 @@
             const startGameBtn = document.getElementById('start-game-btn');
             const categoryButtonsContainer = document.getElementById('category-buttons');
             const drawCardBtn = document.getElementById('draw-card-btn');
-            const backToCategoriesBtn = document.getElementById('back-to-categories-btn');
             const cardTextElement = document.getElementById('card-text');
-            const maleIcon = document.getElementById('male-icon');
-            const femaleIcon = document.getElementById('female-icon');
+            const playerIcon = document.getElementById('player-icon');
             const playerLabel = document.getElementById('player-label');
+            const currentCategoryNameElement = document.getElementById('current-category-name');
+            const changeCategoryLink = document.getElementById('change-category-link');
 
             function showScreen(screenId) {
                 screens.forEach(screen => screen.classList.toggle('active', screen.id === screenId));
@@ -341,46 +364,59 @@
                     categoryButtonsContainer.appendChild(button);
                 }
             }
-            
-            function resetDeck() { 
-                availableCards = [...cards[currentCategory]]; 
+
+            function resetDeck() {
+                availableCards = [...cards[currentCategory]];
             }
 
             function selectCategory(category) {
                 currentCategory = category;
                 resetDeck();
                 currentPlayer = Math.random() < 0.5 ? 'male' : 'female';
+                currentCategoryNameElement.textContent = category;
                 showScreen('game-screen');
                 drawCard();
             }
-            
+
             function updatePlayerDisplay() {
                 const isMale = currentPlayer === 'male';
-                maleIcon.style.display = isMale ? 'block' : 'none';
-                femaleIcon.style.display = !isMale ? 'block' : 'none';
+                playerIcon.className = isMale ? 'fa-solid fa-mars' : 'fa-solid fa-venus';
                 playerLabel.textContent = isMale ? "His Turn" : "Her Turn";
             }
 
             function drawCard() {
-                if (availableCards.length === 0) resetDeck();
+                if (availableCards.length === 0) {
+                    cardTextElement.textContent = "You've completed all cards in this category! The deck has been reshuffled.";
+                    resetDeck();
+                }
 
                 updatePlayerDisplay();
 
                 const cardIndex = Math.floor(Math.random() * availableCards.length);
                 const cardContent = availableCards.splice(cardIndex, 1)[0];
                 
-                cardTextElement.textContent = cardContent;
+                // Set the card text after a short delay to allow player-turn animation
+                setTimeout(() => {
+                    cardTextElement.textContent = cardContent;
+                }, 100);
 
+                // Switch player for the next turn
                 currentPlayer = (currentPlayer === 'male') ? 'female' : 'male';
             }
 
             // Event listeners
             startGameBtn.addEventListener('click', () => showScreen('category-screen'));
+            
             categoryButtonsContainer.addEventListener('click', (e) => {
-                if (e.target.tagName === 'BUTTON') selectCategory(e.target.dataset.category);
+                if (e.target.tagName === 'BUTTON') {
+                    selectCategory(e.target.dataset.category);
+                }
             });
+
             drawCardBtn.addEventListener('click', drawCard);
-            backToCategoriesBtn.addEventListener('click', () => {
+            
+            changeCategoryLink.addEventListener('click', (e) => {
+                e.preventDefault();
                 showScreen('category-screen');
             });
 
