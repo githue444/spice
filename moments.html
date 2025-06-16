@@ -102,6 +102,18 @@
             color: var(--dark-bg);
             box-shadow: 0 0 15px rgba(196, 162, 101, 0.5);
         }
+        
+        .category-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 200px;
+        }
+
+        .category-button i {
+            font-size: 1.1em;
+        }
 
         #category-buttons {
             display: flex;
@@ -275,6 +287,28 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const cards = {
+                'The Art of the Hug': [
+                    'Let\'s stand and hold each other in a simple, quiet hug for one full minute. No talking, just feeling the stillness and presence.',
+                    'Come up behind me, wrap your arms around me, and rest your chin on my shoulder. Hold me like this until I completely relax into you.',
+                    'Give me a hug like you haven\'t seen me in a long, long time.',
+                    'Imagine I\'ve had a terrible day. Give me a hug that wordlessly says, "I\'m here for you, and everything will be okay."',
+                    'Let\'s give each other a "heartbeat hug." I want you to press your ear against my chest and listen to my heartbeat, and I will listen to yours.',
+                    'Embrace me and lift me off the ground, holding me for just a moment.',
+                    'Let\'s sit together, and you will hold me from behind, wrapping me in a protective cocoon as we look out at the room.',
+                    'Give me a hug that expresses pure gratitude. A hug that says "thank you for being you."',
+                    'Let\'s hug while swaying gently from side to side, as if we are slow-dancing to a song only we can hear.',
+                    'I want a "sleepy" hug. Let\'s embrace and just melt into each other, releasing all tension from our bodies.',
+                    'Give me a hug where you bury your face in the crook of my neck, inhaling my scent and letting me feel your breath on my skin.',
+                    'We will hug with our temples touching, focusing on the feeling of connection, mind to mind and body to body.',
+                    'Give me the tightest hug you can, one that makes me feel safe and completely enveloped by you. Just for a moment, then release gently.',
+                    'Let\'s have a "breathing hug." We\'ll hold each other and take five deep, audible breaths together, feeling the vibrations in our chests.',
+                    'While we are hugging, I want you to gently rub or trace patterns on my back with your hands.',
+                    'Let\'s lie down facing each other and hold each other in a full-body hug, our legs intertwined.',
+                    'Give me a running start from across the room and I will catch you in a joyful, celebratory hug.',
+                    'Let\'s embrace side-by-side, with one arm around each other\'s waist or shoulders, and stand quietly together for a moment as a single unit.',
+                    'Give me a hug that is also a gentle massage, kneading the tension from my shoulders and back as you hold me.',
+                    'While we are holding each other, whisper something you love about me into my ear.'
+                ],
                 'Sensual Awakening': [
                     'Give me a full-body massage for 10 minutes. The only goal is my relaxation.',
                     'Using only your fingertips, lightly trace patterns all over my back, arms, and legs for three minutes.',
@@ -285,7 +319,27 @@
                     'Let\'s sit in a comfortable position. For five minutes, the only way we can communicate is through touch. No words.',
                     'I get to choose a song. We will dance to it, holding each other as close as possible.',
                     'Gently play with my hair for five minutes.',
-                    'Undress me, but with the slowest, most deliberate pace you can manage. For every item you remove, you must place a kiss on the skin you\'ve just revealed.'
+                    'Undress me, but with the slowest, most deliberate pace you can manage. For every item you remove, you must place a kiss on the skin you\'ve just revealed.',
+                    'Lie behind me, spooning, and press your chest against my back. Let\'s synchronize our breathing for three minutes until we feel like one.',
+                    'With your eyes closed, explore the landscape of my face using only your fingertips. Feel the curve of my jaw, the shape of my lips, the arch of my brows.',
+                    'Gently blow warm air across my neck and collarbones, alternating with soft, cool kisses.',
+                    'Use the back of your fingernails to lightly graze the skin on my inner arms and thighs.',
+                    'Sit facing me. We will hold hands, interlace our fingers, and just look into each other\'s eyes for two full minutes without speaking.',
+                    'Hum your favorite song against my skin. Let me feel the vibration on my back or stomach.',
+                    'I will lie on my stomach. Your task is to use only your hair to tickle and tease the back of my neck and shoulders.',
+                    'Let\'s find the most sensitive, non-sexual part of my body (like the inner wrist or the back of the knee) and focus all of your touch there for one minute.',
+                    'Use your nose to nuzzle me. Explore my neck, my shoulder, and my temple, simply feeling the texture and scent of my skin.',
+                    'Whisper three things you find beautiful about my body into my ear, taking your time with each one.',
+                    'I will lie perfectly still. You will place one hand on my heart and one on my stomach. Hold them there and simply channel warmth and calmness to me.',
+                    'Let\'s sit back-to-back on the floor, feeling the warmth and shape of each other\'s bodies.',
+                    'Gently press your lips to my pulse points: my wrists, my neck, the crook of my elbow. Just hold them there.',
+                    'Let me rest my head in your lap. Stroke my forehead and temples until I feel completely at ease.',
+                    'Trace the letters of a secret word on my back with your finger. I have to guess the word.',
+                    'I want you to cradle my face in your hands and just hold it, studying my features for a moment before giving me a single, soft kiss on the forehead.',
+                    'Let\'s take turns stretching each other\'s bodies gently, like in partnered yoga, focusing on slow movements and deep breaths.',
+                    'Your only task is to massage my scalp. Use your fingertips to release all the tension.',
+                    'Let\'s sit opposite each other and touch only our feet together, exploring with our toes and ankles.',
+                    'Run your lips from my shoulder all the way down to my fingertips, as lightly as you possibly can.'
                 ],
                 'The Art of the Kiss': [
                     'Kiss me for five minutes straight. The kiss can change in intensity, but our lips cannot break contact.',
@@ -297,7 +351,17 @@
                     'Start by kissing my forehead, slowly moving down my face and neck, and end with the most passionate kiss on the lips you can give.',
                     'Your challenge is to make me breathless with just one single, perfect kiss.',
                     'Lie me down. I want you to kiss your way from my toes all the way up to my lips.',
-                    'Let\'s kiss in front of a mirror, watching each other\'s expressions as we do.'
+                    'Let\'s kiss in front of a mirror, watching each other\'s expressions as we do.',
+                    'Kiss me as if we\'ve been apart for a year and have just been reunited.',
+                    'Give me a kiss that starts incredibly soft and slow, and gradually builds into overwhelming passion. You control the pace.',
+                    'I want a "stolen" kiss. At some point in the next ten minutes, catch me off guard and kiss me like you can\'t resist.',
+                    'Use only the tip of your tongue to trace the outline of my lips before you kiss me.',
+                    'Kiss me with your hands tangled in my hair.',
+                    'Your challenge is to communicate three different emotions—tenderness, urgency, and longing—through three separate kisses.',
+                    'Give me a kiss that ends with a gentle, teasing bite on my lower lip.',
+                    'Let\'s see who can give the most gentle, butterfly-light kisses for a full minute.',
+                    'I want to feel your smile while you kiss me. Kiss me in a way that shows pure joy.',
+                    'Kiss me in a way that says "I worship you."'
                 ],
                 'Body Exploration': [
                     'I will lie down with my eyes closed. For five minutes, you will explore my body. Your goal is to find a new sensitive spot you didn\'t know about.',
@@ -309,7 +373,27 @@
                     'Use your mouth to pleasure me in a place other than my primary erogenous zones. Be creative.',
                     'I get to place your hands wherever I want on my body. They have to stay there until I move them.',
                     'Let\'s experiment with temperature. Use your warm breath or a cool drink to create sensations on my skin.',
-                    'For the next 10 minutes, there is no "end goal." We will simply touch, explore, and enjoy the physical sensations without pressure for more.'
+                    'For the next 10 minutes, there is no "end goal." We will simply touch, explore, and enjoy the physical sensations without pressure for more.',
+                    'I will trace a path on your body with my finger. You will then immediately trace the exact same path on my body with your mouth.',
+                    'Let\'s create a pleasure map. I will touch you in different spots, and you will give it a rating from 1 to 5 based on the sensation. We\'ll find the \'5s\'.',
+                    'For the next five minutes, you can only touch the left side of my body, and I can only touch the right side of yours.',
+                    'Touch me anywhere you want. My only job is to respond with a single word: \'Yes,\' \'More,\' or \'There.\' I cannot say anything else.',
+                    'Let\'s sit facing each other, naked. We will take turns mirroring each other\'s movements exactly for two minutes.',
+                    'Explore my entire body using only the palms of your hands. Feel my shape, my muscles, my warmth.',
+                    'I will lie on my back. Your challenge is to arouse me without ever touching below my waist. Use your hands, mouth, and breath on my upper body.',
+                    'Describe to me the most sensitive part of your body and why you love being touched there. Then, let me touch you there.',
+                    'Let\'s link our hands and bring them on a journey over both of our bodies together, as if they are one entity with four hands.',
+                    'My eyes are closed. Your turn. Guide my hands over your own body, showing me its landscape, its textures, and its secrets without a word.',
+                    'I want you to find a part of my body you don\'t usually pay attention to and worship it with your hands and mouth for two minutes.',
+                    'Let\'s see if you can identify me by touch. Blindfolded, you must find me using only your hands.',
+                    'Your turn to lie still. I\'m going to find the spot that makes your breath catch, using only my fingertips.',
+                    'Let\'s explore the sensation of friction. Rub your body against mine—legs, torsos, arms—feeling the warmth we generate.',
+                    'Without using your hands or mouth, pleasure me. Use your legs, your chest, the hair on your arms. Be creative.',
+                    'Verbally, I am going to describe a sensation (e.g., "a warm wave," "a sharp tingle," "a light tickle"). You must then try to create that exact sensation on my skin.',
+                    'I want to feel the weight of you. Lie on top of me, skin to skin, and let\'s just be still for a minute, feeling our heartbeats.',
+                    'Let\'s sit cross-legged, knees touching. We\'ll explore each other from the waist up, but only touching in perfect symmetry. If you touch my left shoulder, I must touch your right.',
+                    'I want you to focus on my breath. Every time I exhale, you must touch me somewhere new. Every time I inhale, you must kiss the spot you just touched.',
+                    'I\'m going to touch you in two places at once. Your job is to tell me which touch you prefer and why. We\'ll do this five times to learn more about your body\'s preferences.'
                 ],
                 'Taking Control': [
                     'For the next 15 minutes, you are my pleasure object. I am in complete control. Your only job is to receive.',
@@ -333,8 +417,22 @@
                     'Can we try to climax at the exact same time? Let\'s communicate and coordinate to make it happen.',
                     'Let\'s use a mirror. I want to watch us having sex.',
                     'Let\'s focus on your pleasure entirely. I will do whatever it takes to give you the most intense orgasm possible. My pleasure can wait.',
-                    'No hands allowed for either of us during intercourse. We can only use our bodies and mouths to enhance the pleasure.'
+                    'No hands allowed for either of us during intercourse. We can only use our bodies and mouths to enhance the pleasure.',
+                    'We will have sex using only slow, deep, deliberate movements. The goal is endurance and connection, not a race to the finish.',
+                    'I want to hear you. No holding back. Let me hear every sound of pleasure you make, as loudly as you feel it.',
+                    'During sex, you must maintain eye contact with me for as long as we can. Let\'s see everything in each other\'s eyes.',
+                    'Let\'s switch roles halfway through. Whoever is being more passive takes dominant control, and vice-versa, in a single fluid motion.',
+                    'After you orgasm, you must not pull away. Stay connected to me, inside me, and let\'s feel the aftershocks together for at least a full minute.'
                 ]
+            };
+            
+            const categoryIcons = {
+                'The Art of the Hug': 'fa-solid fa-hand-holding-heart',
+                'Sensual Awakening': 'fa-solid fa-feather',
+                'The Art of the Kiss': 'fa-solid fa-heart',
+                'Body Exploration': 'fa-solid fa-hand-sparkles',
+                'Taking Control': 'fa-solid fa-crown',
+                'Peak Performance': 'fa-solid fa-fire'
             };
 
             let currentCategory = '';
@@ -359,8 +457,17 @@
                 categoryButtonsContainer.innerHTML = '';
                 for (const category in cards) {
                     const button = document.createElement('button');
-                    button.textContent = category;
                     button.dataset.category = category;
+                    button.className = 'category-button';
+                    
+                    const icon = document.createElement('i');
+                    icon.className = categoryIcons[category] || 'fa-solid fa-star'; // Default icon
+                    
+                    const text = document.createTextNode(category);
+                    
+                    button.appendChild(icon);
+                    button.appendChild(text);
+
                     categoryButtonsContainer.appendChild(button);
                 }
             }
@@ -408,8 +515,9 @@
             startGameBtn.addEventListener('click', () => showScreen('category-screen'));
             
             categoryButtonsContainer.addEventListener('click', (e) => {
-                if (e.target.tagName === 'BUTTON') {
-                    selectCategory(e.target.dataset.category);
+                const button = e.target.closest('button');
+                if (button) {
+                    selectCategory(button.dataset.category);
                 }
             });
 
