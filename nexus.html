@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>The Nexus</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --dark-bg: #1a1a1d;
+            --light-text: #e0e0e0;
+            --gold-accent: #c4a265;
+            --primary-cta: #b38b4a;
+            --card-bg: rgba(40, 40, 45, 0.7);
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Raleway', sans-serif;
+            color: var(--light-text);
+            background-color: var(--dark-bg);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease-in-out, visibility 0.6s;
+        }
+
+        .screen.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            color: var(--gold-accent);
+            margin: 0 0 1rem 0;
+        }
+
+        p {
+            font-size: clamp(1rem, 3vw, 1.1rem);
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 0 2rem 0;
+        }
+
+        .button {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--light-text);
+            background-color: var(--primary-cta);
+            border: 1px solid var(--gold-accent);
+            padding: 15px 35px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .button:hover {
+            background-color: var(--gold-accent);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(196, 162, 101, 0.3);
+        }
+        
+        #game-screen {
+            justify-content: space-between;
+            padding-top: 50px; /* Make space for timer */
+        }
+        
+        .game-header {
+             position: absolute;
+             top: 50px;
+             left: 0;
+             right: 0;
+             min-height: 50px;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             justify-content: center;
+        }
+        
+        #timer {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            color: var(--gold-accent);
+            opacity: 0.5;
+            font-family: 'Raleway', sans-serif;
+        }
+        
+        #player-indicator {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--gold-accent);
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+            margin-bottom: 1rem;
+        }
+
+        .card-container {
+            width: 100%;
+            max-width: 600px;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--card-bg);
+            border: 1px solid rgba(196, 162, 101, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 30px;
+            box-sizing: border-box;
+            margin: auto;
+        }
+
+        #card-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            line-height: 1.4;
+            margin: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        .game-footer {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            padding-bottom: 1rem;
+        }
+        
+        #progress-icon-container {
+            width: 60px;
+            height: 60px;
+        }
+
+        #progress-icon-container svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg); /* Start from top */
+        }
+        
+        #progress-icon-container .progress-path {
+            stroke: var(--gold-accent);
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke-dashoffset 1s ease-in-out, opacity 1s ease-in-out;
+        }
+        
+        #progress-icon-container .pulsing-glow {
+             animation: pulse 2s infinite ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% { filter: drop-shadow(0 0 2px var(--gold-accent)); opacity: 0.7; }
+            50% { filter: drop-shadow(0 0 8px var(--gold-accent)); opacity: 1; }
+            100% { filter: drop-shadow(0 0 2px var(--gold-accent)); opacity: 0.7; }
+        }
+
+
+        #close-session-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--gold-accent);
+            font-size: 1.8rem;
+            cursor: pointer;
+            opacity: 0.7;
+            box-shadow: none;
+            padding: 5px;
+        }
+        #close-session-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Start Screen -->
+    <div id="start-screen" class="screen active">
+        <h1>The Nexus</h1>
+        <p>Cross the threshold from your separate worlds into a moment of shared connection and escalating intimacy. Where presence meets pleasure.</p>
+        <button id="start-btn" class="button">Begin</button>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+        <div id="timer">00:00</div>
+        <button id="close-session-btn" title="End Session">&times;</button>
+        <div class="game-header">
+            <div id="player-indicator"></div>
+        </div>
+        <div class="card-container">
+            <p id="card-text">Get ready...</p>
+        </div>
+        <div class="game-footer">
+            <div id="progress-icon-container">
+                <svg viewBox="0 0 36 36">
+                    <path class="progress-path" id="progress-path"
+                        d="M18 2.0845
+                          a 15.9155 15.9155 0 0 1 0 31.831
+                          a 15.9155 15.9155 0 0 1 0 -31.831"
+                        stroke-dasharray="100, 100"
+                        stroke-dashoffset="100"
+                    />
+                </svg>
+            </div>
+            <button id="next-btn" class="button">Next</button>
+        </div>
+    </div>
+
+    <!-- End Screen -->
+    <div id="end-screen" class="screen">
+        <h1>Flow Complete</h1>
+        <p>Stay in this moment for as long as you can. Return to your day when you are ready.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DATA ---
+            const decks = [
+                // Deck 1: Warm-Up
+                [
+                    { him: "Sit back to back. Feel her shape against yours and sync your breathing for one minute.", her: "Sit back to back. Feel his shape against yours and sync your breathing for one minute." },
+                    { him: "Place your hands on each other’s hearts. Close your eyes and feel the rhythm. No talking.", her: "Place your hands on each other’s hearts. Close your eyes and feel the rhythm. No talking." },
+                    { him: "Touch foreheads. Close your eyes and be completely still together for a moment.", her: "Touch foreheads. Close your eyes and be completely still together for a moment." },
+                    { him: "Rest your hand on the back of her neck. Let the warmth of your palm be a comforting anchor.", her: "Rest your hand on the back of his neck. Let the warmth of your palm be a comforting anchor." },
+                    { him: "Hold hands. Close your eyes and gently squeeze her hand three times in a slow, steady rhythm.", her: "Hold hands. Close your eyes and gently squeeze his hand three times in a slow, steady rhythm." },
+                    { him: "Lean your head against her chest or back. Listen for her heartbeat or breath.", her: "Lean your head against his chest or back. Listen for his heartbeat or breath." },
+                    { him: "Place your palm flat on her chest. Feel the rise and fall of her breath under your hand.", her: "Place your palm flat on his chest. Feel the rise and fall of his breath under your hand." },
+                    { him: "Rest your head on her shoulder. Let her respond by leaning her head gently on top of yours.", her: "Rest your head on his shoulder. Let him respond by leaning his head gently on top of yours." },
+                    { him: "Breathe in deeply together. On the exhale, release a soft, audible hum, feeling the vibration.", her: "Breathe in deeply together. On the exhale, release a soft, audible hum, feeling the vibration." },
+                    { him: "One hand on her shoulder, one on your heart. A simple gesture of being present for her.", her: "One hand on his shoulder, one on your heart. A simple gesture of being present for him." },
+                ],
+                // Deck 2: Affection
+                [
+                    { him: "Hold her face gently in your hands. Look into her eyes for 30 seconds. Say nothing.", her: "Hold his face gently in your hands. Look into his eyes for 30 seconds. Say nothing." },
+                    { him: "Gently trace the outline of her lips with your fingertip. Do not kiss.", her: "Gently trace the outline of his lips with your fingertip. Do not kiss." },
+                    { him: "Place your forehead against hers. Close your eyes and breathe together in that shared space.", her: "Place your forehead against his. Close your eyes and breathe together in that shared space." },
+                    { him: "Take her hand, bring it to your lips, and place a single, slow kiss in her palm while holding her gaze.", her: "Take his hand, bring it to your lips, and place a single, slow kiss in his palm while holding his gaze." },
+                    { him: "Nuzzle your face into the curve of her neck, inhaling her scent without kissing.", her: "Nuzzle your face into the curve of his neck, inhaling his scent without kissing." },
+                    { him: "Stroke her cheek with the back of your fingers, from her temple to her jaw.", her: "Stroke his cheek with the back of your fingers, from his temple to his jaw." },
+                    { him: "Place a soft kiss on each of her closed eyelids.", her: "Place a soft kiss on each of his closed eyelids." },
+                    { him: "Kiss the corner of her mouth, very softly, and pause there for a moment.", her: "Kiss the corner of his mouth, very softly, and pause there for a moment." },
+                    { him: "Whisper her name like it’s a secret, your lips close to her ear.", her: "Whisper his name like it’s a secret, your lips close to his ear." },
+                    { him: "Run your fingertips slowly down her spine.", her: "Run your fingertips slowly down his spine." },
+                ],
+                // Deck 3: Playful Physicality
+                [
+                    { him: "Hug her from behind, tight and long. Lift her slightly off the ground.", her: "Hug him from behind, tight and long." },
+                    { him: "Slow dance with her, with no music, bodies pressed close. Add a clumsy or dramatic dip at the end.", her: "Slow dance with him, with no music, bodies pressed close. Add a clumsy or dramatic dip at the end." },
+                    { him: "Gently press her against a wall and give her a playful, intense kiss.", her: "Gently press him against a wall and give him a playful, intense kiss." },
+                    { him: "Pin her lightly to the couch or wall, smiling. Hold her there for a moment before letting go.", her: "Pin him lightly to the couch or wall, smiling. Hold him there for a moment before letting go." },
+                    { him: "Grab her waist and pull her suddenly close for a dramatic kiss.", her: "Grab his waist and pull him suddenly close for a dramatic kiss." }
+                ],
+                // Deck 4: Erotic Embers (Looping)
+                [
+                    { him: "Have a quickie. Let her choose the position.", her: "Have a quickie. Let him choose the position." },
+                    { him: "Pleasure her clitoris with your mouth or fingers until she is satisfied.", her: "Give him a quick, focused blowjob." },
+                    { him: "Use your hands to bring her to an intense orgasm.", her: "Use your hands to bring him to an intense orgasm." },
+                    { him: "Mutually masturbate, side by side or face to face, maintaining eye contact.", her: "Mutually masturbate, side by side or face to face, maintaining eye contact." },
+                    { him: "For the next 7 minutes, her pleasure is your only priority.", her: "For the next 7 minutes, his pleasure is your only priority." },
+                    { him: "Undress her slowly, leaving just one item of clothing on her. Then, have sex.", her: "Undress him slowly, leaving just one item of clothing on him. Then, have sex." },
+                    { him: "Your focus is oral. Bring her to climax with only your mouth.", her: "Your focus is oral. Bring him to climax with only your mouth." },
+                    { him: "Straddle her and grind, either clothed or unclothed, until one of you can't take it anymore.", her: "Have him lie on his back and straddle him. Grind until one of you can't take it anymore." },
+                    { him: "Lie side by side. For 5 minutes, you can only use your lips and fingertips to explore and arouse her.", her: "Lie side by side. For 5 minutes, you can only use your lips and fingertips to explore and arouse him." },
+                    { him: "Use one finger and your breath to tease her to the edge of orgasm, then pull back. Repeat twice before release.", her: "Use one finger and your breath to tease him to the edge of orgasm, then pull back. Repeat twice before release." },
+                    { him: "Watch her pleasure herself, while you describe what you want to do to her.", her: "Watch him pleasure himself, while you describe what you want to do to him." },
+                    { him: "Dry hump. With clothes on, press against each other with urgency.", her: "Dry hump. With clothes on, press against each other with urgency." },
+                    { him: "Have her sit on the edge of a couch or chair. Kneel between her legs and pleasure her with your mouth.", her: "Have him sit on the edge of a couch or chair. Kneel before him and pleasure him with your mouth." },
+                    { him: "Have silent sex. The only sounds allowed are breath and bodies moving. Communication is through eye contact and touch only.", her: "Have silent sex. The only sounds allowed are breath and bodies moving. Communication is through eye contact and touch only." },
+                    { him: "You're in charge. Choose three places to kiss her and three places to touch her. Then, have sex.", her: "You're in charge. Choose three places to kiss him and three places to touch him. Then, have sex." },
+                    { him: "Stand her against a wall. Kiss her while your hands explore her body under her shirt.", her: "Stand him against a wall. Kiss him while your hands explore his body under his shirt." },
+                    { him: "Whisper your fantasies into her ear while you touch yourself.", her: "Whisper your fantasies into his ear while you touch yourself." },
+                    { him: "You start the intercourse, but she sets the pace and depth by moving her hips.", her: "You start the intercourse, but he sets the pace and depth by moving his hips." },
+                    { him: "Bring her to the very brink of orgasm, hold her there for 10 seconds, then let her tip over.", her: "Bring him to the very brink of orgasm, hold him there for 10 seconds, then let him tip over." }
+                ]
+            ];
+
+            // --- STATE ---
+            let currentDeckIndex = 0;
+            let cardInDeckIndex = 0;
+            let deckLimits = [10, 10, 5]; // NEW PACING: 10 Warm-Up, 10 Affection, 5 Playful
+            let currentPlayer = 'him'; // Can be 'him' or 'her'
+            let timerInterval;
+            let seconds = 0;
+
+            // --- DOM ELEMENTS ---
+            const startBtn = document.getElementById('start-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const closeBtn = document.getElementById('close-session-btn');
+            const cardTextEl = document.getElementById('card-text');
+            const playerIndicatorEl = document.getElementById('player-indicator');
+            const progressPath = document.getElementById('progress-path');
+            const timerEl = document.getElementById('timer');
+
+            // --- FUNCTIONS ---
+            function showScreen(screenId) {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                document.getElementById(screenId).classList.add('active');
+            }
+            
+            function shuffleDeck(deck) {
+                 for (let i = deck.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [deck[i], deck[j]] = [deck[j], deck[i]];
+                }
+            }
+            
+            function startTimer() {
+                if (timerInterval) clearInterval(timerInterval);
+                seconds = 0;
+                timerEl.textContent = '00:00';
+                timerInterval = setInterval(() => {
+                    seconds++;
+                    const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+                    const secs = (seconds % 60).toString().padStart(2, '0');
+                    timerEl.textContent = `${mins}:${secs}`;
+                }, 1000);
+            }
+
+            function updatePlayerDisplay() {
+                const text = currentPlayer === 'him' ? "For Him" : "For Her";
+                playerIndicatorEl.textContent = text;
+            }
+
+            function updateProgressIcon() {
+                let offset = 100;
+                if (currentDeckIndex === 1) { // After finishing deck 0
+                    offset = 75; // 25% complete
+                } else if (currentDeckIndex === 2) { // After finishing deck 1
+                    offset = 25; // 75% complete
+                } else if (currentDeckIndex === 3) { // After finishing deck 2
+                    offset = 0; // 100% complete
+                }
+                progressPath.style.strokeDashoffset = offset;
+            }
+            
+            function activateClimaxState() {
+                progressPath.classList.add('pulsing-glow');
+            }
+
+            function drawCard() {
+                // Check if we need to move to the next deck
+                if (currentDeckIndex < deckLimits.length && cardInDeckIndex >= deckLimits[currentDeckIndex]) {
+                    currentDeckIndex++;
+                    cardInDeckIndex = 0;
+                    updateProgressIcon();
+
+                    // Special check for climax state
+                    if (currentDeckIndex === 3) {
+                       activateClimaxState();
+                    }
+                }
+
+                // Get the current deck
+                let currentDeck = decks[currentDeckIndex];
+                
+                // For looping deck (Deck 4), reshuffle if we reach the end
+                if (currentDeckIndex === 3 && cardInDeckIndex >= currentDeck.length) {
+                    cardInDeckIndex = 0;
+                    shuffleDeck(currentDeck);
+                }
+
+                const card = currentDeck[cardInDeckIndex];
+                const cardContent = card[currentPlayer];
+                
+                updatePlayerDisplay();
+                
+                // Animate text change
+                cardTextEl.style.opacity = 0;
+                playerIndicatorEl.style.opacity = 0;
+                setTimeout(() => {
+                    cardTextEl.textContent = cardContent;
+                    cardTextEl.style.opacity = 1;
+                    playerIndicatorEl.style.opacity = 0.8;
+                }, 400);
+
+                // Switch player for the next turn
+                currentPlayer = (currentPlayer === 'him') ? 'her' : 'him';
+                cardInDeckIndex++;
+            }
+            
+            function startGame() {
+                startTimer();
+                // Randomize starting player
+                currentPlayer = Math.random() < 0.5 ? 'him' : 'her';
+                // Shuffle all decks for variety
+                decks.forEach(shuffleDeck);
+                showScreen('game-screen');
+                // Draw the first card after a short delay
+                setTimeout(drawCard, 600);
+            }
+            
+            function endSession() {
+                 clearInterval(timerInterval);
+                 showScreen('end-screen');
+            }
+
+            // --- EVENT LISTENERS ---
+            startBtn.addEventListener('click', startGame);
+            nextBtn.addEventListener('click', drawCard);
+            closeBtn.addEventListener('click', endSession);
+
+        });
+    </script>
+</body>
+</html>
