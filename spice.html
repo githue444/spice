@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Archive of Intimacy</title>
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: linear-gradient(135deg, #0a0a0c 0%, #1a1a1d 100%);
+            --text-primary: #e0d5d5;
+            --text-secondary: #a09a9a;
+            --gold: #d4af37;
+            --crimson: #dc143c;
+            --card-bg: rgba(26, 17, 17, 0.8);
+            --border: rgba(212, 175, 55, 0.2);
+        }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            color: var(--gold);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
+            letter-spacing: 0.02em;
+        }
+
+        .header p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Game Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .games-grid {
+                gap: 4rem;
+            }
+        }
+
+        /* Game Card */
+        .game-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+
+        .game-card:nth-child(1) { animation-delay: 0.1s; }
+        .game-card:nth-child(2) { animation-delay: 0.3s; }
+        .game-card:nth-child(3) { animation-delay: 0.5s; }
+        .game-card:nth-child(4) { animation-delay: 0.7s; }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            border-color: var(--gold);
+        }
+
+        /* Desktop Layout */
+        @media (min-width: 768px) {
+            .game-card {
+                flex-direction: row;
+                text-align: left;
+                padding: 3rem;
+                gap: 3rem;
+            }
+            
+            .game-card.reverse {
+                flex-direction: row-reverse;
+            }
+
+            .game-features {
+                margin-left: 0;
+                margin-right: 0;
+                max-width: none;
+            }
+        }
+
+        /* Icon */
+        .game-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover .game-icon {
+            transform: scale(1.1);
+            background: rgba(212, 175, 55, 0.2);
+            border-color: var(--gold);
+        }
+
+        .game-icon i {
+            font-size: 2.5rem;
+            color: var(--gold);
+            transition: all 0.3s ease;
+        }
+
+        @media (min-width: 1024px) {
+            .game-icon {
+                width: 120px;
+                height: 120px;
+            }
+            .game-icon i {
+                font-size: 3rem;
+            }
+        }
+
+        /* Devil's Deck Special Styling */
+        .devils-deck .game-icon {
+            background: rgba(220, 20, 60, 0.1);
+            border-color: rgba(220, 20, 60, 0.3);
+        }
+
+        .devils-deck .game-icon i {
+            color: var(--crimson);
+        }
+
+        .devils-deck:hover .game-icon {
+            background: rgba(220, 20, 60, 0.2);
+            border-color: var(--crimson);
+        }
+
+        /* Content */
+        .game-content {
+            flex: 1;
+        }
+
+        .game-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .game-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .game-features li {
+            font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-primary);
+        }
+
+        .game-features li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.7em;
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+
+        .devils-deck .game-features li::before {
+            background: var(--crimson);
+        }
+
+        .game-features strong {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* Button */
+        .game-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem 2.5rem;
+            background: var(--gold);
+            color: #1a1a1d;
+            font-family: 'Jost', sans-serif;
+            font-weight: 600;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            text-decoration: none;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.4);
+            filter: brightness(110%);
+        }
+
+        .game-btn i {
+            font-size: 1.1em;
+        }
+
+        /* Devil's Deck Button */
+        .devils-deck .game-btn {
+            background: var(--crimson);
+            color: var(--text-primary);
+        }
+
+        .devils-deck .game-btn:hover {
+            box-shadow: 0 12px 35px rgba(220, 20, 60, 0.4);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>The Archive of Intimacy</h1>
+            <p>Unlock deeper connections and explore new dimensions of desire. Each experience in this collection is crafted to ignite passion, curiosity, and shared pleasure between partners.</p>
+        </header>
+
+        <!-- Games Grid -->
+        <div class="games-grid">
+            
+            <!-- The Nexus -->
+            <div class="game-card">
+                <div class="game-icon">
+                    <i class="fa-solid fa-infinity"></i>
+                </div>
+                <div class="game-content">
+                    <h2 class="game-title">The Nexus</h2>
+                    <ul class="game-features">
+                        <li>A <strong>progressive journey</strong> of escalating physical and emotional connection.</li>
+                        <li>Guides couples through <strong>warm-up, affection, playful physicality, and deep erotic intimacy</strong>.</li>
+                        <li><strong>Who should play:</strong> Couples seeking a structured path to deepen their bond, from gentle touch to intense physical closeness.</li>
+                        <li><strong>When to play:</strong> When you want a progressive, full-spectrum experience that gradually builds intimacy over time.</li>
+                    </ul>
+                    <a href="https://githue444.github.io/spice/nexus.html" class="game-btn">
+                        <i class="fa-solid fa-hand-holding-heart"></i> Explore Nexus
+                    </a>
+                </div>
+            </div>
+
+            <!-- Intimate Moments -->
+            <div class="game-card reverse">
+                <div class="game-icon">
+                    <i class="fa-solid fa-heart"></i>
+                </div>
+                <div class="game-content">
+                    <h2 class="game-title">Intimate Moments</h2>
+                    <ul class="game-features">
+                        <li>Explore intimacy on <strong>your terms</strong> with categorized prompts.</li>
+                        <li>Categories range from <strong>tender hugs to sensual awakenings and passionate kisses</strong>.</li>
+                        <li><strong>Reshuffles for endless discovery</strong> within your chosen theme.</li>
+                        <li><strong>Who should play:</strong> Couples who prefer to choose their adventure and focus on specific aspects of intimacy.</li>
+                        <li><strong>When to play:</strong> When you want flexibility and replayability within a chosen theme, adapting to your mood.</li>
+                    </ul>
+                    <a href="https://githue444.github.io/spice/moments.html" class="game-btn">
+                        <i class="fa-solid fa-gem"></i> Discover Moments
+                    </a>
+                </div>
+            </div>
+
+            <!-- Body Language -->
+            <div class="game-card">
+                <div class="game-icon">
+                    <i class="fa-solid fa-dice"></i>
+                </div>
+                <div class="game-content">
+                    <h2 class="game-title">Body Language</h2>
+                    <ul class="game-features">
+                        <li>A <strong>quick, playful 'dice roll'</strong> that generates random actions and body parts.</li>
+                        <li>Prompts <strong>alternate between partners</strong> for spontaneous interaction.</li>
+                        <li><strong>Who should play:</strong> Couples looking for spontaneous fun and focused physical exploration without much planning.</li>
+                        <li><strong>When to play:</strong> When you're looking for a quick, randomized spark or to try something new on the fly.</li>
+                    </ul>
+                    <a href="https://githue444.github.io/spice/dice.html" class="game-btn">
+                        <i class="fa-solid fa-dice-d6"></i> Spice It Up
+                    </a>
+                </div>
+            </div>
+
+            <!-- The Devil's Deck -->
+            <div class="game-card devils-deck reverse">
+                <div class="game-icon">
+                    <i class="fa-solid fa-fire"></i>
+                </div>
+                <div class="game-content">
+                    <h2 class="game-title">The Devil's Deck</h2>
+                    <ul class="game-features">
+                        <li>Dare to descend into desire with <strong>explicit, timed commands</strong>.</li>
+                        <li>Designed for <strong>intense physical pleasure and primal connection</strong>.</li>
+                        <li>Commands <strong>alternate focus between partners every 60 seconds</strong>.</li>
+                        <li><strong>Who should play:</strong> Adventurous couples ready for explicit, high-intensity commands and a structured, exhilarating experience.</li>
+                        <li><strong>When to play:</strong> When you desire direct, challenging, and time-bound intimate interactions.</li>
+                    </ul>
+                    <a href="https://githue444.github.io/spice/sin.html" class="game-btn">
+                        <i class="fa-solid fa-mask"></i> Embrace Desire
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
