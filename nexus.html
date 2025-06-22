@@ -116,14 +116,53 @@
             font-family: 'Raleway', sans-serif;
         }
         
+        .player-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        
         #player-indicator {
             font-family: 'Raleway', sans-serif;
             font-weight: 600;
             font-size: 1.2rem;
             color: var(--gold-accent);
-            opacity: 0;
-            transition: opacity 0.4s ease-in-out;
-            margin-bottom: 1rem;
+            margin: 0;
+        }
+
+        #voice-btn {
+            background: none;
+            border: none;
+            color: var(--gold-accent);
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        #voice-btn:hover {
+            opacity: 1;
+            background-color: rgba(196, 162, 101, 0.1);
+            transform: scale(1.1);
+        }
+
+        #voice-btn.speaking {
+            animation: pulse-voice 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse-voice {
+            0% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.7; }
         }
 
         .card-container {
@@ -142,6 +181,7 @@
             padding: 30px;
             box-sizing: border-box;
             margin: auto;
+            position: relative;
         }
 
         #card-text {
@@ -192,7 +232,6 @@
             100% { filter: drop-shadow(0 0 2px var(--gold-accent)); opacity: 0.7; }
         }
 
-
         #close-session-btn {
             position: absolute;
             top: 20px;
@@ -227,7 +266,10 @@
         <div id="timer">00:00</div>
         <button id="close-session-btn" title="End Session">&times;</button>
         <div class="game-header">
-            <div id="player-indicator"></div>
+            <div class="player-header">
+                <div id="player-indicator"></div>
+                <button id="voice-btn" title="Play Audio">🔊</button>
+            </div>
         </div>
         <div class="card-container">
             <p id="card-text">Get ready...</p>
@@ -261,7 +303,7 @@
                 // Deck 1: Warm-Up
                 [
                     { him: "Sit back to back. Feel her shape against yours and sync your breathing for one minute.", her: "Sit back to back. Feel his shape against yours and sync your breathing for one minute." },
-                    { him: "Place your hands on each other’s hearts. Close your eyes and feel the rhythm. No talking.", her: "Place your hands on each other’s hearts. Close your eyes and feel the rhythm. No talking." },
+                    { him: "Place your hands on each other's hearts. Close your eyes and feel the rhythm. No talking.", her: "Place your hands on each other's hearts. Close your eyes and feel the rhythm. No talking." },
                     { him: "Touch foreheads. Close your eyes and be completely still together for a moment.", her: "Touch foreheads. Close your eyes and be completely still together for a moment." },
                     { him: "Rest your hand on the back of her neck. Let the warmth of your palm be a comforting anchor.", her: "Rest your hand on the back of his neck. Let the warmth of your palm be a comforting anchor." },
                     { him: "Hold hands. Close your eyes and gently squeeze her hand three times in a slow, steady rhythm.", her: "Hold hands. Close your eyes and gently squeeze his hand three times in a slow, steady rhythm." },
@@ -281,7 +323,7 @@
                     { him: "Stroke her cheek with the back of your fingers, from her temple to her jaw.", her: "Stroke his cheek with the back of your fingers, from his temple to his jaw." },
                     { him: "Place a soft kiss on each of her closed eyelids.", her: "Place a soft kiss on each of his closed eyelids." },
                     { him: "Kiss the corner of her mouth, very softly, and pause there for a moment.", her: "Kiss the corner of his mouth, very softly, and pause there for a moment." },
-                    { him: "Whisper her name like it’s a secret, your lips close to her ear.", her: "Whisper his name like it’s a secret, your lips close to his ear." },
+                    { him: "Whisper her name like it's a secret, your lips close to her ear.", her: "Whisper his name like it's a secret, your lips close to his ear." },
                     { him: "Run your fingertips slowly down her spine.", her: "Run your fingertips slowly down his spine." },
                 ],
                 // Deck 3: Playful Physicality
@@ -323,17 +365,117 @@
             let currentPlayer = 'him'; // Can be 'him' or 'her'
             let timerInterval;
             let seconds = 0;
+            let speechSynthesis = window.speechSynthesis;
+            let availableVoices = [];
+            let currentUtterance = null;
 
             // --- DOM ELEMENTS ---
             const startBtn = document.getElementById('start-btn');
             const nextBtn = document.getElementById('next-btn');
             const closeBtn = document.getElementById('close-session-btn');
+            const voiceBtn = document.getElementById('voice-btn');
             const cardTextEl = document.getElementById('card-text');
             const playerIndicatorEl = document.getElementById('player-indicator');
+            const playerHeaderEl = document.querySelector('.player-header');
             const progressPath = document.getElementById('progress-path');
             const timerEl = document.getElementById('timer');
 
-            // --- FUNCTIONS ---
+            // --- VOICE FUNCTIONS ---
+            function loadVoices() {
+                availableVoices = speechSynthesis.getVoices();
+            }
+
+            function getVoiceForPlayer(player) {
+                // For "For Him" activities, use female voice
+                // For "For Her" activities, use male voice
+                const needFemaleVoice = (player === 'him');
+                
+                // Filter voices by gender
+                let preferredVoices = availableVoices.filter(voice => {
+                    const voiceName = voice.name.toLowerCase();
+                    if (needFemaleVoice) {
+                        return voiceName.includes('female') || 
+                               voiceName.includes('woman') || 
+                               voiceName.includes('samantha') ||
+                               voiceName.includes('victoria') ||
+                               voiceName.includes('susan') ||
+                               voiceName.includes('zira') ||
+                               voiceName.includes('hazel');
+                    } else {
+                        return voiceName.includes('male') || 
+                               voiceName.includes('man') || 
+                               voiceName.includes('alex') ||
+                               voiceName.includes('david') ||
+                               voiceName.includes('mark') ||
+                               voiceName.includes('daniel');
+                    }
+                });
+
+                // If no gender-specific voices found, fall back to any voice
+                if (preferredVoices.length === 0) {
+                    preferredVoices = availableVoices;
+                }
+
+                // Return the first available voice or null
+                return preferredVoices.length > 0 ? preferredVoices[0] : null;
+            }
+
+            function speakText(text, player) {
+                // Stop any current speech
+                if (currentUtterance) {
+                    speechSynthesis.cancel();
+                }
+
+                // Create new utterance
+                currentUtterance = new SpeechSynthesisUtterance(text);
+                
+                // Get appropriate voice
+                const voice = getVoiceForPlayer(player);
+                if (voice) {
+                    currentUtterance.voice = voice;
+                }
+
+                // Configure speech settings
+                currentUtterance.rate = 0.85; // Slightly slower for intimacy
+                currentUtterance.pitch = 1.0;
+                currentUtterance.volume = 1.0;
+
+                // Add event listeners
+                currentUtterance.onstart = () => {
+                    voiceBtn.classList.add('speaking');
+                    voiceBtn.textContent = '🔇'; // Change to mute icon while speaking
+                };
+
+                currentUtterance.onend = () => {
+                    voiceBtn.classList.remove('speaking');
+                    voiceBtn.textContent = '🔊'; // Change back to speaker icon
+                    currentUtterance = null;
+                };
+
+                currentUtterance.onerror = () => {
+                    voiceBtn.classList.remove('speaking');
+                    voiceBtn.textContent = '🔊';
+                    currentUtterance = null;
+                };
+
+                // Speak the text
+                speechSynthesis.speak(currentUtterance);
+            }
+
+            function toggleSpeech() {
+                if (currentUtterance && speechSynthesis.speaking) {
+                    // Stop current speech
+                    speechSynthesis.cancel();
+                } else {
+                    // Start speaking current card text
+                    const text = cardTextEl.textContent;
+                    if (text && text !== 'Get ready...') {
+                        speakText(text, currentPlayer);
+                    }
+                }
+            }
+
+            // --- EXISTING FUNCTIONS ---
             function showScreen(screenId) {
                 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
                 document.getElementById(screenId).classList.add('active');
@@ -380,6 +522,11 @@
             }
 
             function drawCard() {
+                // Stop any current speech when drawing new card
+                if (currentUtterance) {
+                    speechSynthesis.cancel();
+                }
+
                 // Check if we need to move to the next deck
                 if (currentDeckIndex < deckLimits.length && cardInDeckIndex >= deckLimits[currentDeckIndex]) {
                     currentDeckIndex++;
@@ -408,11 +555,11 @@
                 
                 // Animate text change
                 cardTextEl.style.opacity = 0;
-                playerIndicatorEl.style.opacity = 0;
+                playerHeaderEl.style.opacity = 0;
                 setTimeout(() => {
                     cardTextEl.textContent = cardContent;
                     cardTextEl.style.opacity = 1;
-                    playerIndicatorEl.style.opacity = 0.8;
+                    playerHeaderEl.style.opacity = 0.8;
                 }, 400);
 
                 // Switch player for the next turn
@@ -433,6 +580,10 @@
             
             function endSession() {
                  clearInterval(timerInterval);
+                 // Stop any current speech
+                 if (currentUtterance) {
+                     speechSynthesis.cancel();
+                 }
                  showScreen('end-screen');
             }
 
@@ -440,6 +591,14 @@
             startBtn.addEventListener('click', startGame);
             nextBtn.addEventListener('click', drawCard);
             closeBtn.addEventListener('click', endSession);
+            voiceBtn.addEventListener('click', toggleSpeech);
+
+            // Load voices when they become available
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = loadVoices;
+            }
+            // Also load voices immediately in case they're already available
+            loadVoices();
 
         });
     </script>
